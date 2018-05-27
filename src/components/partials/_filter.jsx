@@ -63,9 +63,8 @@ class _Filter extends React.Component {
         vex.dialog.confirm({
             message: this.props.lang.filter.clear + "?",
             callback: (value) => {
-                if (value) {
+                if (value)
                     this.props.clearFilterItems()
-                }
             }
         })
     }
@@ -98,7 +97,7 @@ class _Filter extends React.Component {
 const mapStateToProps = state => ({
     lang: state.lang,
     filterItems: state.current_file.filter.list
-});
+})
 
 const mapDispatchToProps = dispatch => ({
     addFilterItems: (field, condition) => dispatch(addFilterItems(field, condition)),

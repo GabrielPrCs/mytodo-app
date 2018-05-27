@@ -12,43 +12,7 @@ import {
     CLEAR_FILTER_ITEMS
 } from './actions.js';
 
-const lang_state = {
-    common: {
-        optional: "Los siguientes datos son opcional",
-        date: {
-            enterYear: "Ingrese un año de 4 dígitos",
-            days: ['Lun','Mar','Mie','Jue','Vie','Sab','Dom'],
-            months: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
-        }
-    },
-
-    item: {
-        title: "título",
-        type: "categoría",
-        destination: "destinatario",
-        reminder: "alarma",
-        description: "descripción",
-        new: "último item agregado"
-    },
-
-    filter: {
-        add: "agregar una nueva condición de filtrado",
-        remove: "remover una condición de filtrado",
-        clear: "remover todas las condiciones de filtrado",
-        words: "palabras a filtrar, separadas por coma"
-    },
-
-
-    buttons: {
-        add: "agregar",
-        confirm: "confirmar",
-        cancel: "cancelar",
-        remove: "borrar",
-        favorite: "favorito",
-        edit: "editar",
-        complete: "completar"
-    }
-}
+import lang_state from "../config/lang/es.json";
 
 const ui_state = {
     addPanel: {
@@ -59,7 +23,8 @@ const ui_state = {
             destination: "",
             reminder: {
                 active: false,
-                date: new Date()
+                date: null,
+                formated : null
             },
             description: ""
         }
@@ -89,7 +54,8 @@ const current_file_state = {
             destination: "Nuevo Usuario",
             reminder: {
                 active: false,
-                date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+                date: null,
+                formated : null
             },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
         },
@@ -105,7 +71,8 @@ const current_file_state = {
             destination: "Nuevo Usuario",
             reminder: {
                 active: false,
-                date: new Date()
+                date: null,
+                formated : null
             },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
         },
@@ -121,7 +88,8 @@ const current_file_state = {
             destination: "Nuevo Usuario",
             reminder: {
                 active: false,
-                date: new Date()
+                date: null,
+                formated : null
             },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
         },
@@ -150,10 +118,10 @@ function ui(state = ui_state, {type, payload}) {
 function current_file(state = current_file_state, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
     switch(type) {
-        case ADD_ITEM:
+            case ADD_ITEM:
             let i = s.items.find(item => item.id === payload.id)
             if(i) {
-                i = payload
+                s.items[s.items.indexOf(i)] = payload;
             }
             else {
                 payload.id = s.ids;

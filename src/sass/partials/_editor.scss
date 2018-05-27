@@ -108,11 +108,9 @@ div#editor-window {
             @include add-transition(max-height, .5s);
             max-height: 0;
             overflow: hidden;
-            & input, textarea { 
-                @extend %material-input;
-            }
-            & textarea { resize: none; height: 20vh; }
-            &.active { max-height: initial }
+            & input, textarea {  @extend %material-input }
+            & textarea { resize: none; min-height: 80px; max-height: 80px; }
+            &.active { max-height: 500px; height: 310px; }
         }
 
         & > button.toggle-button {

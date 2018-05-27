@@ -1,0 +1,37 @@
+{
+    "common": {
+        "optional": "Los siguientes datos son opcional",
+        "date": {
+            "enterYear": "Ingrese un año de 4 dígitos",
+            "days": ["Lun","Mar","Mie","Jue","Vie","Sab","Dom"],
+            "months": ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
+        }
+    },
+
+    "item": {
+        "title": "Título",
+        "type": "Categoría",
+        "destination": "Destinatario",
+        "reminder": "Alarma",
+        "description": "Descripción",
+        "new": "Último item agregado"
+    },
+
+    "filter": {
+        "add": "Agregar una nueva condición de filtrado",
+        "remove": "Remover una condición de filtrado",
+        "clear": "Remover todas las condiciones de filtrado",
+        "words": "Palabras a filtrar, separadas por coma"
+    },
+
+
+    "buttons": {
+        "add": "Agregar",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar",
+        "remove": "Borrar",
+        "favorite": "Favorito",
+        "edit": "Editar",
+        "complete": "Completar"
+    }
+}
