@@ -1,0 +1,22 @@
+div#filter-panel {
+    @include add-shadow(.5);
+    &:hover { @include add-shadow(1) }
+    position: fixed;
+    top: 0px;
+    right: $xspacing;
+    z-index: 1;
+    background-color: $primary-color;
+    border-radius: $border-radius;
+    padding: 7px;
+    & > button {
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        color: $primary-color-dark;
+        &:hover {
+            cursor: pointer;
+            color: white;
+        }
+    }
+    & > button + button { border-left: 2px solid $primary-color-dark }
+}

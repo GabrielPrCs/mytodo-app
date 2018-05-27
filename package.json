@@ -1,0 +1,68 @@
+{
+  "name": "MyTodo",
+  "version": "0.1.0b",
+  "description": "A minimal Electron application",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [],
+  "author": "GaBPC",
+  "license": "MIT",
+  "dependencies": {
+    "electron-compile": "^6.4.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
+    "vex-js": "^4.1.0"
+  },
+  "devDependencies": {
+    "electron": "2.0.2",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-forge": "^5.2.2",
+    "electron-prebuilt-compile": "2.0.2",
+    "react-hot-loader": "^4.2.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "platforms": [
+            "win32"
+          ],
+          "config": {
+            "name": "MyTodo"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "platforms": [
+            "linux"
+          ],
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "platforms": [
+            "linux"
+          ],
+          "config": {}
+        }
+      ]
+    }
+  }
+}
