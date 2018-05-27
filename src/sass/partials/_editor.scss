@@ -105,14 +105,14 @@ div#editor-window {
         padding-right: 20px;
 
         & > form {
-            @include add-transition(max-height, 1s);
+            @include add-transition(max-height, .5s);
             max-height: 0;
             overflow: hidden;
             & input, textarea { 
                 @extend %material-input;
             }
-            & textarea { resize: vertical; min-height: 30px; max-height: 20vh; }
-            &.active { max-height: 70vh }
+            & textarea { resize: none; height: 20vh; }
+            &.active { max-height: initial }
         }
 
         & > button.toggle-button {

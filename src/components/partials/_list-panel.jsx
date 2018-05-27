@@ -34,6 +34,16 @@ class _ListPanel extends React.Component {
         this.props.sortItems(condition);
     }
 
+    formatDate(date) {
+        var monthNames = this.props.lang.common.date.months;
+      
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+      
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+
     render() {
         return (
             <div className="list-panel">
@@ -58,7 +68,7 @@ class _ListPanel extends React.Component {
                                             <td> { item.title }{item.id === this.props.current_file.ids - 1 ? <i title={ this.props.lang.item.new } className="fas fa-circle m-l-5 success-color reduced-size-font"></i> : null}</td>
                                             <td>{ item.type }</td>
                                             <td>{ item.destination }</td>
-                                            <td>23/05/2018</td>
+                                            {/* <td>{ item.reminder.active ? this.formatDate(item.reminder.date) : <i className="fas fa-minus"></i> }</td> */}
                                             <td>{ item.completed ? <i className="fas fa-check-square"></i> : item.favorite ? <i className="fas fa-star"></i> : "" }</td>
                                             <td className="options">
                                                 <i title={ this.props.lang.buttons.favorite } onClick={ () => this.favoriteItem(item.id) } className={`${item.favorite ? "white-color fas" : "far"} fa-star`}></i>

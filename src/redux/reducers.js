@@ -14,7 +14,12 @@ import {
 
 const lang_state = {
     common: {
-        optional: "Los siguientes datos son opcional"
+        optional: "Los siguientes datos son opcional",
+        date: {
+            enterYear: "Ingrese un año de 4 dígitos",
+            days: ['Lun','Mar','Mie','Jue','Vie','Sab','Dom'],
+            months: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+        }
     },
 
     item: {
@@ -52,7 +57,10 @@ const ui_state = {
             title: "",
             type: "",
             destination: "",
-            reminder: "",
+            reminder: {
+                active: false,
+                date: new Date()
+            },
             description: ""
         }
     }
@@ -81,7 +89,7 @@ const current_file_state = {
             destination: "Nuevo Usuario",
             reminder: {
                 active: false,
-                time: null
+                date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
             },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
         },
@@ -97,7 +105,7 @@ const current_file_state = {
             destination: "Nuevo Usuario",
             reminder: {
                 active: false,
-                time: null
+                date: new Date()
             },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
         },
@@ -113,7 +121,7 @@ const current_file_state = {
             destination: "Nuevo Usuario",
             reminder: {
                 active: false,
-                time: null
+                date: new Date()
             },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
         },

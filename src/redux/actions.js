@@ -80,9 +80,8 @@ export function clearFilterItems() {
     }
 }
 
-
 export const TOGGLE_ADD_PANEL = "toggle_add_panel";
-export function toggleAddPanel(forceActive = false, data = { title: "", type: "", destination: "", reminder: "", description: "" }) {
+export function toggleAddPanel(forceActive = false, data = { title: "", type: "", destination: "", reminder: { active: false, date: null }, description: "" }) {
     return {
         type: TOGGLE_ADD_PANEL,
         payload: {
