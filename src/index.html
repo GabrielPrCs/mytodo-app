@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <link rel="stylesheet" type="text/less" href="./sass/app.scss" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="./sass/vex.css" />
-  <link rel="stylesheet" href="./sass/vex-theme-os.css" />
-  <link rel="stylesheet" href="https://unpkg.com/js-datepicker/datepicker.css">
-</head>
-<body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0" >
-  <div id="App"></div>
-</body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="./sass/libraries/fontawesome/fontawesome.css"/>
+    <!-- Vex modals -->
+    <link rel="stylesheet" href="./sass/libraries/vex.css" />
+    <link rel="stylesheet" href="./sass/libraries/vex-theme-os.css" />
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="./sass/libraries/datepicker.css">
+    <!-- Own styles -->
+    <link rel="stylesheet" type="text/less" href="./sass/app.scss" />
+    
+  </head>
+  <body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0" >
+    <div id="App"></div>
+  </body>
 
-<script>
-    var vex = require('vex-js')
-    vex.registerPlugin(require('vex-dialog'))
-    vex.defaultOptions.className = 'vex-theme-os'
-</script>
+  <script>
+      var vex = require('vex-js')
+      vex.registerPlugin(require('vex-dialog'))
+      vex.defaultOptions.className = 'vex-theme-os'
+  </script>
 
-<script type="text/jsx">
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
+  <script type="text/jsx">
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import {AppContainer} from 'react-hot-loader';
 
-const render = () => {
-  const App = require('./components/app').default;
-  ReactDOM.render(<AppContainer><App /></AppContainer>, document.getElementById('App'));
-}
+    const render = () => {
+      const App = require('./components/app').default;
+      ReactDOM.render(<AppContainer><App /></AppContainer>, document.getElementById('App'));
+    }
 
-render();
-if (module.hot) { module.hot.accept(render); }
-</script>
+    render();
+    if (module.hot) { module.hot.accept(render); }
+  </script>
 </html>
