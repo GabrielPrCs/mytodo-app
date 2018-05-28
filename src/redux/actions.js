@@ -58,10 +58,10 @@ export function activeItem(itemid) {
     }
 }
 
-export const SORT_ITEMS = "favorite_items";
-export function sortItems(condition) {
+export const SORT_FILE = "favorite_items";
+export function sortFile(condition) {
     return {
-        type: SORT_ITEMS,
+        type: SORT_FILE,
         payload: condition
     }
 }
@@ -70,10 +70,10 @@ export function sortItems(condition) {
 /**
  * Filter actions
  */
-export const ADD_FILTER_ITEMS = "add_filter_items";
-export function addFilterItems(field, condition) {
+export const ADD_FILTER_CONDITION = "add_filter_items";
+export function addFilterCondition(field, condition) {
     return {
-        type: ADD_FILTER_ITEMS,
+        type: ADD_FILTER_CONDITION,
         payload: {
             field: field,
             condition: condition
@@ -81,18 +81,18 @@ export function addFilterItems(field, condition) {
     }
 }
 
-export const REMOVE_FILTER_ITEMS = "remove_filter_items";
-export function removeFilterItems(id) {
+export const REMOVE_FILTER_CONDITION = "remove_filter_items";
+export function removeFilterCondition(id) {
     return {
-        type: REMOVE_FILTER_ITEMS,
+        type: REMOVE_FILTER_CONDITION,
         payload: id
     }
 }
 
-export const CLEAR_FILTER_ITEMS = "clear_filter_items";
-export function clearFilterItems() {
+export const CLEAR_FILTER_CONDITIONS = "clear_filter_items";
+export function clearFilterConditions() {
     return {
-        type: CLEAR_FILTER_ITEMS
+        type: CLEAR_FILTER_CONDITIONS
     }
 }
 

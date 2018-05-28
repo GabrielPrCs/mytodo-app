@@ -1,0 +1,29 @@
+div#editor-window {
+    position: absolute;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    /**
+     * Common style of the two panels that make up the editor.
+     */
+
+    & > div.filter-panel {
+        position: fixed;
+        top: 2px;
+        right: $xspacing;
+        z-index: 1;
+    }
+
+    & > div.list-panel, div.add-panel {
+        position: absolute;
+        left: $xspacing;
+        right: $xspacing;
+        background: white;
+    }
+    & > div.list-panel { top: $yspacing; max-height: 80%; }
+    & > div.add-panel { bottom: 0 }
+
+    @import './list-panel/style.scss';
+    @import './add-panel/style.scss';
+    @import './filter/style.scss';
+}

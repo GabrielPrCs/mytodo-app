@@ -1,7 +1,7 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux'
-import { openFile, saveFile } from '../redux/actions.js'
+import { openFile, saveFile } from '../../redux/actions.js'
 
 class _IPCH extends React.Component {
     componentDidMount() {
@@ -12,11 +12,10 @@ class _IPCH extends React.Component {
         ipcRenderer.on('save-file', (e, path) => {
             this.props.saveFile(path)
         })
-
     }
 
     render() {
-        return (null);
+        return null;
     }
 }
 

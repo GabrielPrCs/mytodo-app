@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { sortItems } from '../../../../redux/actions.js'
+import { sortFile } from '../../../../redux/actions.js'
 
-const _HeaderItem = ({text, icon, column, sort_condition, sortItems}) => {
+const _HeaderItem = ({text, icon, column, sort_condition, sortFile}) => {
     return (
         <th
             className={ column === sort_condition ? 'active' : '' }
-            onClick={ () => { sortItems(column)} }>
+            onClick={ () => { sortFile(column)} }>
                 <i className={`float-left m-r-5 fas fa-${icon}`}></i>
                 { text }
         </th>
@@ -15,7 +15,7 @@ const _HeaderItem = ({text, icon, column, sort_condition, sortItems}) => {
 
 const HeaderItem = connect(
     state    => ({ sort_condition: state.current_file.sort.condition }),
-    dispatch => ({ sortItems: (condition) => dispatch(sortItems(condition)) })
+    dispatch => ({ sortFile: (condition) => dispatch(sortFile(condition)) })
 )(_HeaderItem)
 
 const _Header =  ({ lang }) => {

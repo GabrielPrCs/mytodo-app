@@ -7,7 +7,7 @@ const _BodyItem = ({item, newest_id, lang, activeItem, favoriteItemClickHandler,
     return (
         <tbody onClick={ () => activeItem(item.id) } className={`list-panel-item ${item.active ? "active" : ""} ${item.favorite ? "favorite" : ""} ${item.completed ? "completed" : ""}`}> 
         <tr className="quick-info">
-            <td>{ item.title }{item.id === newest_id ? <i title={ lang.item.new } className="fas fa-circle m-l-5 success-color reduced-size-font"></i> : null}</td>
+            <td>{ item.title }{item.id === newest_id ? <i title={ lang.item.new } className="fas fa-circle m-l-5 success-color"></i> : null}</td>
             <td>{ item.type }</td>
             <td>{ item.destination }</td>
             <td>{ item.reminder.active ? item.reminder.formated : <i className="fas fa-minus"></i> }</td>
@@ -53,7 +53,7 @@ const BodyItem = connect(
         dialogMessage = state.lang.buttons.remove
         return ({
             lang: state.lang,
-            newest_id: state.current_file.ids - 1,
+            newest_id: state.current_file.items.nextId - 1,
         })
     },
     dispatch => ({
@@ -90,7 +90,7 @@ const BodyItem = connect(
 
 const _Body = ({current_file}) => {
     return (
-        current_file.items.map((item, key) => {
+        current_file.items.list.map((item, key) => {
             if(item.visible) {
                 // Just on tr can be returned, so tbody is necessary
                 return (

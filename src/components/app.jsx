@@ -4,7 +4,7 @@ import { createStore } from 'redux'
 import reducers from '../redux/reducers.js'
 const store = createStore(reducers)
 
-import IPCH from './ipc-handler'
+import IPCH from './ipc-handler/ipc-handler'
 import Editor from './editor/editor'
 
 class App extends React.Component {

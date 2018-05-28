@@ -7,26 +7,25 @@ import ToggleButton from './partials/_toggle-button'
 import ConfirmButton from './partials/_confirm-button'
 
 class _AddPanel extends React.Component {
+    formatDate(date) {
+        var monthNames = this.props.lang.common.date.months;
+        return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
+    }
+
     componentDidMount() {
         this._reminder = Datepicker('#reminder-input', {
-            position: 'bl',
             dateSelected: this.props.data.reminder.date ? this.props.data.reminder.date : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
             customDays: this.props.lang.common.date.days,
             customMonths: this.props.lang.common.date.months,
-            overlayPlaceholder: this.props.lang.common.date.enterYear,
             overlayButton: this.props.lang.buttons.confirm,
             formatter: (el, date) => { el.value = this.formatDate(date) },
-        })
-    }
-
-    resetInputs() {
-        this._title.style["border-color"] = "";
-        this._type.style["border-color"] = "";
+        });
     }
 
     toggleButtonClickHandler() {
+        this._title.style["border-color"] = "";
+        this._type.style["border-color"] = "";
         this.props.toggleAddPanel();
-        this.resetInputs();
     }
 
     componentDidUpdate() {
@@ -35,14 +34,19 @@ class _AddPanel extends React.Component {
         this._destination.value = this.props.data.destination;
         this._description.value = this.props.data.description;
         this._reminderCheckbox.checked = this.props.data.reminder.active;
-        this._reminder.el.disabled = !this.props.data.reminder.active;
+        this._reminder.el.disabled = !this.props.data.reminder.active; // Date selected is set on componentDidMount's Datepicker creation
     }
 
     confirmButtonClickHandler(e) {
         e.preventDefault();
 
-        let item = this.props.data;
+        this._title.style["border-color"] = this._title.value === '' ? 'red' : '';
+        this._type.style["border-color"] = this._type.value === '' ? 'red' : '';
 
+        if(this._title.value === '' || this._type.value === '') // Title and type are required
+            return
+
+        let item = this.props.data;
         item.title = this._title.value;
         item.type = this._type.value;
         item.destination = this._destination.value;
@@ -50,44 +54,23 @@ class _AddPanel extends React.Component {
             active: this._reminderCheckbox.checked,
             date: this._reminder.dateSelected,
             formated: this.formatDate(this._reminder.dateSelected)
-        }
+        };
         item.description = this._description.value;
 
-        // Here changes the color on re-click
-        this.resetInputs()
-
-        if(item.title === '' || item.type === '') {
-            if(item.title === '') {
-                this._title.style["border-color"] = "red";
-            }
-            if(item.type === '') {
-                this._type.style["border-color"] = "red";
-            }
-            return
-        }
-
-        this.props.addItem(item)
+        this.props.addItem(item);
+        
         this.toggleButtonClickHandler()
     }
 
-    formatDate(date) {
-        var monthNames = this.props.lang.common.date.months;
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-        return day + ' ' + monthNames[monthIndex] + ' ' + year
-    }
-
     render() {
+        let lang = this.props.lang
+        let active = this.props.active
         return (
             <div className="add-panel">
 
-                <ToggleButton 
-                    active={this.props.active} 
-                    onClick={this.toggleButtonClickHandler.bind(this)}
-                />
+                <ToggleButton active={active} onClick={this.toggleButtonClickHandler.bind(this)}/>
     
-                <form className={`text-left m-t-15  ${this.props.active ? "active" : ""}`}>
+                <form className={active ? "active" : ""}>
                 
                     <div className="row">
                         {/* Item title */}
@@ -95,7 +78,7 @@ class _AddPanel extends React.Component {
                             <input 
                                 ref={ i => this._title = i } 
                                 type="text" 
-                                placeholder={ this.props.lang.item.title }
+                                placeholder={ lang.item.title }
                             />
                         </div>
                         {/* Item type */}
@@ -103,7 +86,7 @@ class _AddPanel extends React.Component {
                             <input 
                                 ref={ i => this._type = i } 
                                 type="text" 
-                                placeholder={ this.props.lang.item.type }
+                                placeholder={ lang.item.type }
                             />
                         </div>
                     </div>
@@ -111,7 +94,7 @@ class _AddPanel extends React.Component {
                     {/* Optional text */}
                     <div className="row">
                         <div className="col-12">
-                            <h6 style={{display: "inline"}}>{ this.props.lang.common.optional }</h6>
+                            <h6 style={{display: "inline"}}>{ lang.common.optional }</h6>
                         </div>
                     </div>
 
@@ -121,14 +104,14 @@ class _AddPanel extends React.Component {
                             <input 
                                 ref={ i => this._destination = i } 
                                 type="text" 
-                                placeholder={ this.props.lang.item.destination }
+                                placeholder={ lang.item.destination }
                             />
                         </div>
                         {/* Item reminder checkbox */}
                         <div className="col-1">
                             <input
                                 className="fas fa-clock"
-                                title={`${this.props.lang.item.reminder} on/off`}
+                                title={`${lang.item.reminder} on/off`}
                                 ref={ i => this._reminderCheckbox = i } 
                                 type="checkbox"
                                 onClick={ () => this._reminder.el.disabled = !this._reminder.el.disabled }
@@ -140,12 +123,12 @@ class _AddPanel extends React.Component {
                         </div>
                     </div>
 
+                    {/* Item description */}
                     <div className="row">
-                        {/* Item description */}
                         <div className="col-12">
                             <textarea 
                                 ref={ i => this._description = i } 
-                                placeholder={ this.props.lang.item.description }>
+                                placeholder={ lang.item.description }>
                             </textarea>
                         </div>
                     </div>

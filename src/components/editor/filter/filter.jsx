@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addFilterItems, removeFilterItems, clearFilterItems } from '../../../redux/actions';
+import { addFilterCondition, removeFilterCondition, clearFilterConditions } from '../../../redux/actions';
 
 class _Filter extends React.Component {
     addFilter() {
@@ -25,8 +25,7 @@ class _Filter extends React.Component {
                                 if(condition) {
                                     let c = condition.split(',');
                                     c.forEach(e => {
-                                        console.log(e);
-                                        this.props.addFilterItems(field, e)
+                                        this.props.addFilterCondition(field, e)
                                     });
                                 }
                             }
@@ -53,25 +52,25 @@ class _Filter extends React.Component {
             input: input.join(''),
             callback: (election) => {
                 if(election) {
-                    this.props.removeFilterItems(parseInt(election))
+                    this.props.removeFilterCondition(parseInt(election))
                 }
             }
         })
     }
 
-    clearFilterItems() {
+    clearFilterConditions() {
         vex.dialog.confirm({
             message: this.props.lang.filter.clear + "?",
             callback: (value) => {
                 if (value)
-                    this.props.clearFilterItems()
+                    this.props.clearFilterConditions()
             }
         })
     }
 
     render() {
         return(
-            <div id="filter-panel" className="text-right">
+            <div className="filter-panel">
                 <button title={ this.props.lang.filter.add } onClick={ this.addFilter.bind(this) }>
                     <small>
                         <i className="fas fa-plus"></i>
@@ -86,7 +85,7 @@ class _Filter extends React.Component {
                     <i className="fas fa-filter"></i>
                 </button>
 
-                <button title={ this.props.lang.filter.clear } onClick={ this.clearFilterItems.bind(this) } >
+                <button title={ this.props.lang.filter.clear } onClick={ this.clearFilterConditions.bind(this) } >
                     <i className="fas fa-eraser"></i>
                 </button>
             </div>
@@ -100,9 +99,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    addFilterItems: (field, condition) => dispatch(addFilterItems(field, condition)),
-    removeFilterItems: (field, condition) => dispatch(removeFilterItems(field, condition)),
-    clearFilterItems: () => dispatch(clearFilterItems()),
+    addFilterCondition: (field, condition) => dispatch(addFilterCondition(field, condition)),
+    removeFilterCondition: (field, condition) => dispatch(removeFilterCondition(field, condition)),
+    clearFilterConditions: () => dispatch(clearFilterConditions()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(_Filter);
