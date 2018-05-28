@@ -1,8 +1,20 @@
-export const READ_RECENT_FILES = "read_recent_files";
+/**
+ * Current file actions
+ */
 
-export function readRecentFiles() {
+export const OPEN_FILE = "open_file";
+export function openFile(path) {
     return {
-        type: READ_RECENT_FILES,
+        type: OPEN_FILE,
+        payload: path
+    }
+}
+
+export const SAVE_FILE = "save_file";
+export function saveFile(path) {
+    return {
+        type: SAVE_FILE,
+        payload: path
     }
 }
 
@@ -54,6 +66,10 @@ export function sortItems(condition) {
     }
 }
 
+
+/**
+ * Filter actions
+ */
 export const ADD_FILTER_ITEMS = "add_filter_items";
 export function addFilterItems(field, condition) {
     return {
@@ -80,6 +96,9 @@ export function clearFilterItems() {
     }
 }
 
+/**
+ * User interface actions
+ */
 export const TOGGLE_ADD_PANEL = "toggle_add_panel";
 export function toggleAddPanel(forceActive = false, data = { title: "", type: "", destination: "", reminder: { active: false, date: null }, description: "" }) {
     return {

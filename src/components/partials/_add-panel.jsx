@@ -7,12 +7,13 @@ class _AddPanel extends React.Component {
 
     handleKeyDown(e) {
         if(this.props.active) {
-            e.preventDefault()
             switch( e.keyCode ) {
                 case 27: // ESCAPE
+                    e.preventDefault()
                     this.props.toggleAddPanel()
                     break;
                 case 13: // ENTER
+                    e.preventDefault()
                     this._confirmButton.click()
                     break;
                 default: 

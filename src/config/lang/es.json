@@ -1,4 +1,32 @@
 {
+    "menubar": {
+        "file": {
+            "label": "Archivo",
+            "accelerator": "",
+
+            "newFile": {
+                "label": "Nuevo archivo",
+                "accelerator": ""
+            },
+
+            "newWindow": {
+                "label": "Nueva ventana",
+                "accelerator": ""
+            },
+
+            "openFile": {
+                "label": "Abrir archivo",
+                "accelerator": ""
+            },
+
+            "saveFile": {
+                "label": "Guardar",
+                "accelerator": ""
+            }
+
+        }
+    },
+
     "common": {
         "optional": "Los siguientes datos son opcional",
         "date": {

@@ -1,10 +1,10 @@
 import React from 'react';
-
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import reducers from '../redux/reducers.js'
 const store = createStore(reducers)
 
+import IPCH from './ipc-handler'
 import Filter from './partials/_filter.jsx'
 import ListPanel from './partials/_list-panel.jsx'
 import AddPanel from './partials/_add-panel.jsx'
@@ -18,10 +18,13 @@ class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <div id="editor-window">
-                    <Filter/>
-                    <ListPanel/>  
-                    <AddPanel/>
+                <div>
+                    <IPCH/>
+                    <div id="editor-window">
+                        <Filter/>
+                        <ListPanel/>  
+                        <AddPanel/>
+                    </div>
                 </div>
             </Provider>
         );

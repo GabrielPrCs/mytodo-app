@@ -9,8 +9,14 @@ import {
     TOGGLE_ADD_PANEL,
     ADD_FILTER_ITEMS,
     REMOVE_FILTER_ITEMS,
-    CLEAR_FILTER_ITEMS
+    CLEAR_FILTER_ITEMS,
+    OPEN_FILE,
+    SAVE_FILE
 } from './actions.js';
+
+import fs from 'fs'
+
+const dialog = require('electron').remote.dialog 
 
 import lang_state from "../config/lang/es.json";
 
@@ -32,7 +38,7 @@ const ui_state = {
 }
 
 const current_file_state = {
-    ids: 3,
+    ids: 0,
     sort:{
         condition: "title",
         asc: true
@@ -41,59 +47,7 @@ const current_file_state = {
         next: 0,
         list: []
     },
-    items: [
-        {
-            id: 0,
-            visible: true,
-            active: true,
-            favorite: true,
-            completed: false,
-            creation: Date.now(),
-            title: "Item Favorito",
-            type:  "Tutorial",
-            destination: "Nuevo Usuario",
-            reminder: {
-                active: false,
-                date: null,
-                formated : null
-            },
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
-        },
-        {
-            id: 1,
-            visible: true,
-            active: true,
-            favorite: false,
-            completed: false,
-            creation: Date.now(),
-            title: "Item Normal",
-            type:  "Tutorial",
-            destination: "Nuevo Usuario",
-            reminder: {
-                active: false,
-                date: null,
-                formated : null
-            },
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
-        },
-        {
-            id: 2,
-            visible: true,
-            active: true,
-            favorite: false,
-            completed: true,
-            creation: Date.now(),
-            title: "Item Finalizado",
-            type:  "Tutorial",
-            destination: "Nuevo Usuario",
-            reminder: {
-                active: false,
-                date: null,
-                formated : null
-            },
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"
-        },
-    ]
+    items: []
 }
 
 function lang(state = lang_state, {type, payload}) {
@@ -118,6 +72,18 @@ function ui(state = ui_state, {type, payload}) {
 function current_file(state = current_file_state, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
     switch(type) {
+
+            case OPEN_FILE:
+                s = JSON.parse(fs.readFileSync(payload, "utf8"));
+                break;
+
+            case SAVE_FILE:
+                fs.writeFile(payload, JSON.stringify(s), e => {
+                   if(e)
+                       dialog.showMessageBox({ message: e.toString(), buttons: ["Ok"] })
+                })
+                break;
+
             case ADD_ITEM:
             let i = s.items.find(item => item.id === payload.id)
             if(i) {
