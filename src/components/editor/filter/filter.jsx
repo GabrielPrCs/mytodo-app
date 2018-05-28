@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addFilterItems, removeFilterItems, clearFilterItems } from '../../redux/actions';
+import { addFilterItems, removeFilterItems, clearFilterItems } from '../../../redux/actions';
 
 class _Filter extends React.Component {
     addFilter() {

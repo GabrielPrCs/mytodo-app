@@ -1,30 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addItem, toggleAddPanel } from '../../redux/actions.js'
+import { addItem, toggleAddPanel } from '../../../redux/actions.js'
 import Datepicker from 'js-datepicker';
 
+import ToggleButton from './partials/_toggle-button'
+import ConfirmButton from './partials/_confirm-button'
+
 class _AddPanel extends React.Component {
-
-    handleKeyDown(e) {
-        if(this.props.active) {
-            switch( e.keyCode ) {
-                case 27: // ESCAPE
-                    e.preventDefault()
-                    this.props.toggleAddPanel()
-                    break;
-                case 13: // ENTER
-                    e.preventDefault()
-                    this._confirmButton.click()
-                    break;
-                default: 
-                    break;
-            }
-        }
-    }
-
     componentDidMount() {
-        this._toggleButton.onclick = this.toggleButtonClickHandler.bind(this);
-        this._confirmButton.onclick = this.confirmButtonClickHandler.bind(this);
         this._reminder = Datepicker('#reminder-input', {
             position: 'bl',
             dateSelected: this.props.data.reminder.date ? this.props.data.reminder.date : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
@@ -32,12 +15,8 @@ class _AddPanel extends React.Component {
             customMonths: this.props.lang.common.date.months,
             overlayPlaceholder: this.props.lang.common.date.enterYear,
             overlayButton: this.props.lang.buttons.confirm,
-            formatter: (el, date) => {
-                el.value = this.formatDate(date)
-            },
+            formatter: (el, date) => { el.value = this.formatDate(date) },
         })
-
-        document.addEventListener("keydown", this.handleKeyDown.bind(this));
     }
 
     resetInputs() {
@@ -57,10 +36,6 @@ class _AddPanel extends React.Component {
         this._description.value = this.props.data.description;
         this._reminderCheckbox.checked = this.props.data.reminder.active;
         this._reminder.el.disabled = !this.props.data.reminder.active;
-    }
-
-    reminderCheckboxClickHandler() {
-        this._reminder.el.disabled = !this._reminder.el.disabled
     }
 
     confirmButtonClickHandler(e) {
@@ -107,15 +82,13 @@ class _AddPanel extends React.Component {
         return (
             <div className="add-panel">
 
-                <button ref={ b => this._toggleButton = b } className={`toggle-button ${this.props.active ? "active" : "null"}`}>
-                { 
-                    this.props.active ? 
-                        <span><i className="fas fa-ban float-left"></i> { this.props.lang.buttons.cancel }</span> : 
-                        <span><i className="fas fa-plus float-left"></i> { this.props.lang.buttons.add }</span>
-                }
-                </button>
+                <ToggleButton 
+                    active={this.props.active} 
+                    onClick={this.toggleButtonClickHandler.bind(this)}
+                />
     
                 <form className={`text-left m-t-15  ${this.props.active ? "active" : ""}`}>
+                
                     <div className="row">
                         {/* Item title */}
                         <div className="col-6">
@@ -158,7 +131,7 @@ class _AddPanel extends React.Component {
                                 title={`${this.props.lang.item.reminder} on/off`}
                                 ref={ i => this._reminderCheckbox = i } 
                                 type="checkbox"
-                                onClick={ this.reminderCheckboxClickHandler.bind(this) }
+                                onClick={ () => this._reminder.el.disabled = !this._reminder.el.disabled }
                             />
                         </div>
                         {/* Item reminder input */}
@@ -177,8 +150,7 @@ class _AddPanel extends React.Component {
                         </div>
                     </div>
 
-                    {/* Confirm button */}
-                    <button ref={ b => this._confirmButton = b } className="m-t-15 m-b-15 success-button float-right"><i className="fas fa-check"></i> { this.props.lang.buttons.confirm }</button>
+                    <ConfirmButton onClick={ this.confirmButtonClickHandler.bind(this) }/>
                 </form>     
     
             </div>

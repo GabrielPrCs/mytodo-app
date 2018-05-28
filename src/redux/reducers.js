@@ -37,18 +37,20 @@ const ui_state = {
     }
 }
 
-const current_file_state = {
-    ids: 0,
-    sort:{
-        condition: "title",
-        asc: true
-    },
-    filter: {
-        next: 0,
-        list: []
-    },
-    items: []
-}
+// const current_file_state = {
+//     ids: 0,
+//     sort:{
+//         condition: "title",
+//         asc: true
+//     },
+//     filter: {
+//         next: 0,
+//         list: []
+//     },
+//     items: []
+// }
+
+const current_file_state = {"ids":3,"sort":{"condition":"title","asc":true},"filter":{"next":0,"list":[]},"items":[{"id":0,"visible":true,"active":true,"favorite":true,"completed":false,"creation":"Date.now()","title":"Item Favorito","type":"Tutorial","destination":"Nuevo Usuario","reminder":{"active":false,"date":null,"formated":null},"description":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"},{"id":1,"visible":true,"active":true,"favorite":false,"completed":false,"creation":"Date.now()","title":"Item Normal","type":"Tutorial","destination":"Nuevo Usuario","reminder":{"active":false,"date":null,"formated":null},"description":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"},{"id":2,"visible":true,"active":true,"favorite":false,"completed":true,"creation":"Date.now()","title":"Item Finalizado","type":"Tutorial","destination":"Nuevo Usuario","reminder":{"active":true,"date":"2018-05-31T03:00:00.000Z","formated":"31 May 2018"},"description":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, numquam. Dicta temporibus minima aliquam assumenda, placeat minus, culpa maiores itaque omnis voluptatibus molestias animi officiis tempora adipisci ullam consequatur eveniet"}]}
 
 function lang(state = lang_state, {type, payload}) {
     switch (type) {

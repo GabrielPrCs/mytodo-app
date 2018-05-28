@@ -1,7 +1,6 @@
 import { app, BrowserWindow, Menu, dialog } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
-import { setMaxListeners } from 'cluster';
 
 import lang from './config/lang/es.json'
 
@@ -39,50 +38,45 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  mainWindow.setMenu(Menu.buildFromTemplate([
-    {
-      label: lang.menubar.file.label,
-      accelerator: lang.menubar.file.accelerator,
-      submenu: [
-        // New File
-        {
-          label: lang.menubar.file.newFile.label,
-          accelerator: lang.menubar.file.newFile.accelerator,
-        },
-        // New Window
-        {
-          label: lang.menubar.file.newWindow.label,
-          accelerator: lang.menubar.file.newWindow.accelerator,
-        },
-        // Open File
-        {
-          label: lang.menubar.file.openFile.label,
-          accelerator: lang.menubar.file.openFile.accelerator,
-          click: () => {
-            dialog.showOpenDialog({ properties: ['openFile'] },
-              function (file) {
-                if (file !== undefined) {
-                  mainWindow.webContents.send('open-file', file[0])
-                }
-            })
-          }
-        },
-        // Save File
-        {
-          label: lang.menubar.file.saveFile.label,
-          accelerator: lang.menubar.file.saveFile.accelerator,
-          click: () => {
-            dialog.showSaveDialog({},
-              function (file) {
-                if(file !== undefined) {
-                  mainWindow.webContents.send('save-file', file)
-                }
-            })
-          }
-        }
-      ]
-    }
-  ]))
+  // mainWindow.setMenu(Menu.buildFromTemplate([
+  //   {
+  //     label: lang.menubar.file.label,
+  //     accelerator: lang.menubar.file.accelerator,
+  //     submenu: [
+  //       // New File
+  //       {
+  //         label: lang.menubar.file.newFile.label,
+  //         accelerator: lang.menubar.file.newFile.accelerator,
+  //       },
+  //       // Open File
+  //       {
+  //         label: lang.menubar.file.openFile.label,
+  //         accelerator: lang.menubar.file.openFile.accelerator,
+  //         click: () => {
+  //           dialog.showOpenDialog({},
+  //             function (file) {
+  //               if (file !== undefined) {
+  //                 mainWindow.webContents.send('open-file', file[0])
+  //               }
+  //           })
+  //         }
+  //       },
+  //       // Save File
+  //       {
+  //         label: lang.menubar.file.saveFileAs.label,
+  //         accelerator: lang.menubar.file.saveFileAs.accelerator,
+  //         click: () => {
+  //           dialog.showSaveDialog({},
+  //             function (file) {
+  //               if(file !== undefined) {
+  //                 mainWindow.webContents.send('save-file', file)
+  //               }
+  //           })
+  //         }
+  //       }
+  //     ]
+  //   }
+  // ]))
 
 };
 

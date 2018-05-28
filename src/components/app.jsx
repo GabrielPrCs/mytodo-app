@@ -5,9 +5,7 @@ import reducers from '../redux/reducers.js'
 const store = createStore(reducers)
 
 import IPCH from './ipc-handler'
-import Filter from './partials/_filter.jsx'
-import ListPanel from './partials/_list-panel.jsx'
-import AddPanel from './partials/_add-panel.jsx'
+import Editor from './editor/editor'
 
 class App extends React.Component {
     componentDidMount() {
@@ -20,11 +18,7 @@ class App extends React.Component {
             <Provider store={store}>
                 <div>
                     <IPCH/>
-                    <div id="editor-window">
-                        <Filter/>
-                        <ListPanel/>  
-                        <AddPanel/>
-                    </div>
+                    <Editor/>
                 </div>
             </Provider>
         );
