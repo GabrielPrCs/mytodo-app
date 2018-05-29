@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { sortFile } from '../../../../redux/actions.js'
 
+import Filter from '../../filter/filter'
+
 const _HeaderItem = ({text, icon, column, sort_condition, sortFile}) => {
     return (
         <th
@@ -9,6 +11,7 @@ const _HeaderItem = ({text, icon, column, sort_condition, sortFile}) => {
             onClick={ () => { sortFile(column)} }>
                 <i className={`float-left m-r-5 fas fa-${icon}`}></i>
                 { text }
+                <Filter column={column}/>
         </th>
     );
 }
@@ -42,7 +45,6 @@ const _Header =  ({ lang }) => {
                     column="reminder" 
                     icon="clock" 
                 />
-                <th className="no-hover"></th>
             </tr>
         </thead>
     );

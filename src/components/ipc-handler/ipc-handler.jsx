@@ -1,17 +1,13 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux'
-import { openFile, saveFile } from '../../redux/actions.js'
+import { openFile, saveFile, toggleAddPanel } from '../../redux/actions.js'
 
 class _IPCH extends React.Component {
     componentDidMount() {
-        ipcRenderer.on('open-file', (e, path) => {
-            this.props.openFile(path)
-        })
-
-        ipcRenderer.on('save-file', (e, path) => {
-            this.props.saveFile(path)
-        })
+        ipcRenderer.on('open-file', (e, p) => this.props.openFile(p) )
+        ipcRenderer.on('save-file', (e, p) => this.props.saveFile(p) )
+        ipcRenderer.on('add-item',   e     => this.props.addItem() )
     }
 
     render() {
@@ -23,6 +19,7 @@ const mapStateToProps = state => ({})
 const mapDispatchToPros = dispatch => ({
     openFile: (path) => dispatch(openFile(path)),
     saveFile: (path) => dispatch(saveFile(path)),
+    addItem: () => dispatch(toggleAddPanel()),
 })
 
 export default connect(mapStateToProps, mapDispatchToPros)(_IPCH)

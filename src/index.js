@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, dialog } from 'electron';
+import { app, BrowserWindow, Menu, dialog, globalShortcut } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
 
@@ -38,43 +38,51 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
+  let newFile = {
+    label: lang.menubar.file.newFile.label,
+    accelerator: lang.menubar.file.newFile.accelerator,
+  }
+
+  let openFile = {
+    label: lang.menubar.file.openFile.label,
+    accelerator: lang.menubar.file.openFile.accelerator,
+    click: () => {
+      dialog.showOpenDialog({}, file => {
+          if (file !== undefined) mainWindow.webContents.send('open-file', file[0])
+      })
+    }
+  }
+
+  let saveFile = {
+    label: lang.menubar.file.saveFileAs.label,
+    accelerator: lang.menubar.file.saveFileAs.accelerator,
+    click: () => {
+      dialog.showSaveDialog({}, file => {
+          if(file !== undefined) mainWindow.webContents.send('save-file', file)
+      })
+    }
+  }
+
+  let addItem = {
+    label: lang.menubar.editor.addItem.label,
+    accelerator: lang.menubar.editor.addItem.accelerator,
+  }
+
+  // As Control+A is select all, the addItem accelerator has to be added globally
+  globalShortcut.register(lang.menubar.editor.addItem.accelerator, () => {
+    mainWindow.webContents.send('add-item')
+  })
+
   let template = [
       {
         label: lang.menubar.file.label,
         accelerator: lang.menubar.file.accelerator,
-        submenu: [
-          // New File
-          {
-            label: lang.menubar.file.newFile.label,
-            accelerator: lang.menubar.file.newFile.accelerator,
-          },
-          // Open File
-          {
-            label: lang.menubar.file.openFile.label,
-            accelerator: lang.menubar.file.openFile.accelerator,
-            click: () => {
-              dialog.showOpenDialog({},
-                function (file) {
-                  if (file !== undefined) {
-                    mainWindow.webContents.send('open-file', file[0])
-                  }
-              })
-            }
-          },
-          // Save File
-          {
-            label: lang.menubar.file.saveFileAs.label,
-            accelerator: lang.menubar.file.saveFileAs.accelerator,
-            click: () => {
-              dialog.showSaveDialog({},
-                function (file) {
-                  if(file !== undefined) {
-                    mainWindow.webContents.send('save-file', file)
-                  }
-              })
-            }
-          }
-        ]
+        submenu: [ newFile, openFile, saveFile ]
+      },
+      {
+        label: lang.menubar.editor.label,
+        accelerator: lang.menubar.editor.accelerator,
+        submenu: [addItem]
       }
     ]
 

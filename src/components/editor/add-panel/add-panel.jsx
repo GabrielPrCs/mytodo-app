@@ -22,12 +22,6 @@ class _AddPanel extends React.Component {
         });
     }
 
-    toggleButtonClickHandler() {
-        this._title.style["border-color"] = "";
-        this._type.style["border-color"] = "";
-        this.props.toggleAddPanel();
-    }
-
     componentDidUpdate() {
         this._title.value = this.props.data.title;
         this._type.value = this.props.data.type;
@@ -35,6 +29,9 @@ class _AddPanel extends React.Component {
         this._description.value = this.props.data.description;
         this._reminderCheckbox.checked = this.props.data.reminder.active;
         this._reminder.el.disabled = !this.props.data.reminder.active; // Date selected is set on componentDidMount's Datepicker creation
+        this._title.focus();
+        this._title.style["border-color"] = "";
+        this._type.style["border-color"] = "";
     }
 
     confirmButtonClickHandler(e) {
@@ -58,8 +55,7 @@ class _AddPanel extends React.Component {
         item.description = this._description.value;
 
         this.props.addItem(item);
-        
-        this.toggleButtonClickHandler()
+        this.props.toggleAddPanel()
     }
 
     render() {
@@ -68,7 +64,7 @@ class _AddPanel extends React.Component {
         return (
             <div className="add-panel">
 
-                <ToggleButton active={active} onClick={this.toggleButtonClickHandler.bind(this)}/>
+                <ToggleButton active={active} onClick={this.props.toggleAddPanel.bind(this)}/>
     
                 <form className={active ? "active" : ""}>
                 

@@ -4,7 +4,20 @@
         "asc":true
     },
     "filter":{
-        "next":0,
+        "possibilities": {
+            "title": [
+                {
+                    "count": 1,
+                    "content": "testing"
+                },
+                {
+                    "count": 1,
+                    "content": "hola"
+                }
+            ],
+            "type": [],
+            "destination": []
+        },
         "list":[]
     },
     "items": {

@@ -70,11 +70,14 @@ export function sortFile(condition) {
 /**
  * Filter actions
  */
+export const ADD_FILTER_POSSIBILITY = "add_filter_possibility";
+
 export const ADD_FILTER_CONDITION = "add_filter_items";
-export function addFilterCondition(field, condition) {
+export function addFilterCondition(id, field, condition) {
     return {
         type: ADD_FILTER_CONDITION,
         payload: {
+            id: id,
             field: field,
             condition: condition
         }

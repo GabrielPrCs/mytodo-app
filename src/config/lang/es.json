@@ -11,7 +11,7 @@
 
             "openFile": {
                 "label": "Abrir archivo",
-                "accelerator": ""
+                "accelerator": "CommandOrControl+O"
             },
 
             "saveFileAs": {
@@ -19,6 +19,16 @@
                 "accelerator": ""
             }
 
+        },
+
+        "editor": {
+            "label": "Editor",
+            "accelerator": "CommandOrControl+E",
+
+            "addItem": {
+                "label": "Agregar línea",
+                "accelerator": "CommandOrControl+N"
+            }
         }
     },
 

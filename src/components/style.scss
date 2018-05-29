@@ -12,6 +12,7 @@ $danger-color:       #ff4444; .danger-color       { color: $danger-color       }
 $danger-color-dark:  #CC0000; .danger-color-dark  { color: $danger-color-dark  }
 $success-color:      #00C851; .success-color      { color: $success-color      }
 $success-color-dark: #007E33; .success-color-dark { color: $success-color-dark }
+                                .white-color        { color: white             }
 
 // Text helpers
 .text-left    { text-align: left    }
@@ -136,6 +137,7 @@ body {
     ::-webkit-scrollbar-thumb { background-color: $primary-color; outline: none; }
 
     @import './editor/style.scss';
+    
 }
 
 

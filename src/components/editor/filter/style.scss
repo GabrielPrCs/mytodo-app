@@ -1,18 +1,41 @@
-div.filter-panel {
-    @include add-shadow(.5);
-    &:hover { @include add-shadow(1) }
-    background-color: $primary-color;
-    border-radius: $border-radius;
-    padding: 7px;
-    & > button {
-        background-color: transparent;
-        border: 0;
-        outline: none;
-        color: $primary-color-dark;
-        &:hover {
+div.filter {
+    float: right;
+    background-color: $primary-color-dark;
+    color: white;
+    padding: 3px;
+    border-radius: .3 * $border-radius;
+    font-size: 70%;
+    margin-right: 5px;
+
+    & > div.filter-options {
+        @include add-shadow(1);
+        position: absolute;
+        margin-top: 5px;
+        z-index: 1;
+        color: black;
+        background-color: white;
+        border: 1px solid $primary-color;
+        border-left: 5px solid $primary-color;
+        padding: 5px;
+        display: none;
+        text-transform: capitalize;
+        max-height: 150px;
+        max-width: 200px;
+        overflow: auto;
+        & > label{
+            display: block;
             cursor: pointer;
-            color: white;
+            & > input {
+                border: 0;
+                outline: 0;
+                cursor: pointer;
+            }
+        }
+        & > label + label {
+            margin-top: 5px;
+        }
+        &.active {
+            display: block;
         }
     }
-    & > button + button { border-left: 2px solid $primary-color-dark }
 }

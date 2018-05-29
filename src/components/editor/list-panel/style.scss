@@ -1,12 +1,12 @@
 div.list-panel {
     overflow: auto;
+    min-height: 85vh;
     & > table {
         border-collapse: collapse;
         overflow: hidden;
         border-spacing: 0;
         width: 100%;
         font-weight: bold;
-
         /**
          * Table cells style.
          */
@@ -15,21 +15,25 @@ div.list-panel {
             text-align: left;
             &:hover { cursor: pointer }
         }
-        & th.active, th:hover {
+        & th.active {
             border-bottom: 2px solid $primary-color-dark;
             color: $primary-color-dark;
         }
-
         /**
          * Adds a gap after the table header.
          */
         & > thead:after { content: "-"; color: transparent; }
-
         /**
          * List items style.
          */
         & > tbody.list-panel-item {
             cursor: pointer;
+            & > tr.quick-info {
+                & > td.title-td { width: 25% }
+                & > td.type-td { width: 25% }
+                & > td.destination-td { width: 25% }
+                & > td.reminder-td > { width: 25% }
+            }
             /**
              * Style for item's quick info.
              */
@@ -40,14 +44,16 @@ div.list-panel {
             &.favorite > tr.quick-info { color: $primary-color-dark }
             & > tr.quick-info { color: $info-color; }
             &.completed > tr.quick-info { text-decoration: line-through; color: grey; }
-            &:hover > tr.quick-info { background-color: whitesmoke }
-            // Options td
+            &:hover > tr.quick-info { background-color: whitesmoke;  }
+            // Options tr
             & > tr.quick-info > td.options {
                 @include add-shadow(.5);
                 padding-left: 15px;
                 background-color: $primary-color;
                 color: $primary-color-dark;
                 letter-spacing: 15px;
+                border-top-left-radius: $border-radius;
+                border-bottom-left-radius: $border-radius;
                 & > *:hover { cursor: pointer; color: white; } // The active and completed white color are on inline style on the corresponding elements
             }
             // Opened (active) item colors

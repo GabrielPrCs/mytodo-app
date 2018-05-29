@@ -6,43 +6,46 @@ import { deleteItem, favoriteItem, tickItem, activeItem, toggleAddPanel } from '
 const _BodyItem = ({item, newest_id, lang, activeItem, favoriteItemClickHandler, tickItemClickHandler, editItemClickHandler, deleteItemClickHandler}) => {
     return (
         <tbody onClick={ () => activeItem(item.id) } className={`list-panel-item ${item.active ? "active" : ""} ${item.favorite ? "favorite" : ""} ${item.completed ? "completed" : ""}`}> 
-        <tr className="quick-info">
-            <td>{ item.title }{item.id === newest_id ? <i title={ lang.item.new } className="fas fa-circle m-l-5 success-color"></i> : null}</td>
-            <td>{ item.type }</td>
-            <td>{ item.destination }</td>
-            <td>{ item.reminder.active ? item.reminder.formated : <i className="fas fa-minus"></i> }</td>
-            <td>{ item.completed ? <i className="fas fa-check-square"></i> : item.favorite ? <i className="fas fa-star"></i> : "" }</td>
-            <td className="options">
-                {/* Favorite option button */}
-                <i 
-                    title={ lang.buttons.favorite } 
-                    onClick={ () => favoriteItemClickHandler(item.id) } 
-                    className={`${item.favorite ? "white-color fas" : "far"} fa-star`}>
-                </i>
-                {/* Complete option button */}
-                <i 
-                    title={ lang.buttons.complete } 
-                    onClick={ () => tickItemClickHandler(item.id) } 
-                    className={`${item.completed ? "white-color fas" : "far"} fa-check-square`}>
-                </i>
-                {/* Edit option button */}
-                <i 
-                    title={ lang.buttons.edit } 
-                    onClick={ () => editItemClickHandler(item) } 
-                    className="far fa-edit">
-                </i>
-                {/* Remove option button */}
-                <i 
-                    title={ lang.buttons.remove } 
-                    onClick={ () => deleteItemClickHandler(item.id) } 
-                    className="far fa-trash-alt">
-                </i>
-            </td>
-        </tr>
-        <tr className="description">
-            <td colSpan="5">{item.description.length > 0 ? item.description : ""}</td>
-        </tr>
-    </tbody>
+            <tr className="quick-info">
+                <td className="title-td">
+                    { item.title }
+                    {/* { item.completed ? <i className="fas fa-check-square m-l-5"></i> : item.favorite ? <i className="fas fa-star m-l-5"></i> : "" } */}
+                    { item.id === newest_id ? <i title={ lang.item.new } className="fas fa-circle m-l-5 success-color"></i> : null }
+                </td>
+                <td className="type-td">{ item.type }</td>
+                <td className="destination-td">{ item.destination }</td>
+                <td className="reminder-td">{ item.reminder.active ? item.reminder.formated : <i className="fas fa-minus"></i> }</td>
+                <td className="options">
+                    {/* Favorite option button */}
+                    <i 
+                        title={ lang.buttons.favorite } 
+                        onClick={ e => favoriteItemClickHandler(e, item.id) }
+                        className={`${item.favorite ? "white-color fas" : "far"} fa-star`}>
+                    </i>
+                    {/* Complete option button */}
+                    <i 
+                        title={ lang.buttons.complete } 
+                        onClick={ e => tickItemClickHandler(e, item.id) } 
+                        className={`${item.completed ? "white-color fas" : "far"} fa-check-square`}>
+                    </i>
+                    {/* Edit option button */}
+                    <i 
+                        title={ lang.buttons.edit } 
+                        onClick={ e => editItemClickHandler(e, item) } 
+                        className="far fa-edit">
+                    </i>
+                    {/* Remove option button */}
+                    <i 
+                        title={ lang.buttons.remove } 
+                        onClick={ e => deleteItemClickHandler(e, item.id) } 
+                        className="far fa-trash-alt">
+                    </i>
+                </td>
+            </tr>
+            <tr className="description">
+                <td colSpan="5">{item.description.length > 0 ? item.description : ""}</td>
+            </tr>
+        </tbody>
     );
 }
 
@@ -58,24 +61,20 @@ const BodyItem = connect(
     },
     dispatch => ({
         activeItem: (id) => { dispatch(activeItem(id)) },
-        favoriteItemClickHandler: (id) => {
+        favoriteItemClickHandler: (e, id) => {
+            e.stopPropagation()
             dispatch(favoriteItem(id))
-            // Prevents closing on td click (think to change it with css)
-            dispatch(activeItem(id))
         },
-        tickItemClickHandler: (id) => {
+        tickItemClickHandler: (e, id) => {
+            e.stopPropagation()
             dispatch(tickItem(id))
-            // Prevents closing on td click (think to change it with css)
-            dispatch(activeItem(id))
         },
-        editItemClickHandler: (item) => {
+        editItemClickHandler: (e, item) => {
+            e.stopPropagation()
             dispatch(toggleAddPanel(true, item))
-            // Prevents closing on td click (think to change it with css)
-            dispatch(activeItem(item.id))
         },
-        deleteItemClickHandler: (id) => {
-            // Prevents closing on td click (think to change it with css)
-            dispatch(activeItem(id))
+        deleteItemClickHandler: (e, id) => {
+            e.stopPropagation()
             vex.dialog.confirm({
                 message: dialogMessage + "?",
                 callback: (value) => {
@@ -84,7 +83,6 @@ const BodyItem = connect(
                 }
             })
         }
-
     })
 )(_BodyItem)
 
@@ -101,8 +99,4 @@ const _Body = ({current_file}) => {
     );
 }
 
-export default connect(
-    state => ({
-        current_file: state.current_file
-    })
-)(_Body)
+export default connect( state => ({ current_file: state.current_file }) )(_Body)

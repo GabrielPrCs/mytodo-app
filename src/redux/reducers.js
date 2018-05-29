@@ -11,9 +11,9 @@ import {
     CLEAR_FILTER_CONDITIONS,
     OPEN_FILE,
     SAVE_FILE,
-    SORT_FILE
+    SORT_FILE,
+    ADD_FILTER_POSSIBILITY
 } from './actions.js';
-
 import fs from 'fs'
 
 const dialog = require('electron').remote.dialog 
@@ -46,6 +46,11 @@ import current_file_state from "../config/tutorials/tutorial-nosave.json";
 //     },
 //     filter: {
 //         next: 0,
+//         possibilities: {
+//             title: [],
+//             type: [],
+//             destination: []
+//         },
 //         list: []
 //     },
 //     items: {
@@ -53,6 +58,20 @@ import current_file_state from "../config/tutorials/tutorial-nosave.json";
 //         list: []
 //     }
 // }
+
+Array.prototype.returnIfExists = function(comparer) {
+    for(var i=0; i < this.length; i++)
+        if(comparer(this[i])) return this[i]; 
+    return null; 
+}
+
+Array.prototype.pushOrIncrease = function(element, comparer, increaser) {
+    let e = this.returnIfExists(comparer);
+    if(e)
+        increaser(e)
+    else
+        this.push({count: 1, content: element})
+}
 
 function langReducer(state = lang_state, {type, payload}) {
     switch (type) {
@@ -132,8 +151,10 @@ function currentFileReducer(state = current_file_state, {type, payload}) {
         case ACTIVE_ITEM:
             // If its necessary sorting the file on one of this actions, call sortItems here
             s.items = itemsReducer(s.items, {type, payload})
-            if(type === ADD_ITEM)
+            if(type === ADD_ITEM) {
+                s.filter = filterReducer(s.filter, {type, payload})
                 filterItems(s.items.list, s.filter.list)
+            }
             break;
 
         case ADD_FILTER_CONDITION:
@@ -189,18 +210,25 @@ function itemsReducer(state = current_file_state.items, {type, payload}) {
 function filterReducer(state = current_file_state.filter, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
     switch(type) {
+        case ADD_ITEM:
+            payload.title.split(" ").forEach(element =>  s.possibilities.title.pushOrIncrease(element, e => e.content === element, e => e.count++) )
+            payload.type.split(" ").forEach(element =>  s.possibilities.type.pushOrIncrease(element, e => e.content === element, e => e.count++) )
+            payload.destination.split(" ").forEach(element =>  s.possibilities.destination.pushOrIncrease(element, e => e.content === element, e => e.count++) )
+            break;
+
         case ADD_FILTER_CONDITION:
-            s.list.push({ id: state.next, field: payload.field, condition: payload.condition })
-            s.next += 1;
+            let obj = { id: payload.id, field: payload.field, condition: payload.condition };
+            console.log(obj);
+            s.list.push(obj);
             break; 
 
         case REMOVE_FILTER_CONDITION:
+            console.log(payload);
             s.list = state.list.filter(f => f.id !== payload);
             break;
 
         case CLEAR_FILTER_CONDITIONS:
             s.list = [];
-            s.next = 0;
             break;
     }
     return s;
