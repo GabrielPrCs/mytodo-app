@@ -13,6 +13,7 @@ $danger-color-dark:  #CC0000; .danger-color-dark  { color: $danger-color-dark  }
 $success-color:      #00C851; .success-color      { color: $success-color      }
 $success-color-dark: #007E33; .success-color-dark { color: $success-color-dark }
                                 .white-color        { color: white             }
+                                .grey-color         { color: grey              }
 
 // Text helpers
 .text-left    { text-align: left    }
@@ -27,6 +28,9 @@ $success-color-dark: #007E33; .success-color-dark { color: $success-color-dark }
 // Float helpers
 .float-left  { float: left  }
 .float-right { float: right }
+
+//
+.hide { display: none }
 
 @mixin add-shadow($level, $on-top: false) {
     $sign: 1;
@@ -135,9 +139,9 @@ body {
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background-color: whitesmoke }
     ::-webkit-scrollbar-thumb { background-color: $primary-color; outline: none; }
-
-    @import './editor/style.scss';
-    
 }
+
+@import './editor/editor.scss';
+
 
 

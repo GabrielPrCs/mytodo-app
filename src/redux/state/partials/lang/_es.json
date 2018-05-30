@@ -38,7 +38,8 @@
             "enterYear": "Ingrese un año de 4 dígitos",
             "days": ["Lun","Mar","Mie","Jue","Vie","Sab","Dom"],
             "months": ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
-        }
+        },
+        "noData": "No hay nada para mostrar..."
     },
 
     "item": {
@@ -51,10 +52,7 @@
     },
 
     "filter": {
-        "add": "Agregar una nueva condición de filtrado en la columna:",
-        "remove": "Remover una condición de filtrado",
-        "clear": "Remover todas las condiciones de filtrado",
-        "words": "Palabras a filtrar, separadas por coma"
+        "show": "Mostrar filtros"
     },
 
 
@@ -65,6 +63,7 @@
         "remove": "Borrar",
         "favorite": "Favorito",
         "edit": "Editar",
-        "complete": "Completar"
+        "complete": "Completar",
+        "search": "Buscar"
     }
 }

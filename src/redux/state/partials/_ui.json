@@ -1,0 +1,16 @@
+{
+    "addPanel": {
+        "active": false,
+        "data": {
+            "title": "",
+            "type": "",
+            "destination": "",
+            "description": "",
+            "reminder": {
+                "active": false,
+                "date": null,
+                "formated": null
+            }
+        }
+    }
+}

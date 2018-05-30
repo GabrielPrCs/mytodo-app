@@ -22,8 +22,9 @@ div#editor-window {
     }
     & > div.list-panel { top: $yspacing; max-height: 80%; }
     & > div.add-panel { bottom: 0 }
-
-    @import './list-panel/style.scss';
-    @import './add-panel/style.scss';
-    @import './filter/style.scss';
 }
+
+@import './partials/_add-panel.scss';
+@import './partials/_filter.scss';
+@import './partials/_list-panel.scss';
+

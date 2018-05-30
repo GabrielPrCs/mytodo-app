@@ -1,14 +1,14 @@
 {
-  "name": "MyTodo",
+  "name": "MyTodoApp",
   "version": "0.1.0b",
-  "description": "A minimal Electron application",
+  "description": "A minimalistic electron todo app",
   "main": "./src/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/GabrielPrCs/mytodo-app",
   "keywords": [],
   "author": "GaBPC",
   "license": "MIT",
@@ -41,7 +41,7 @@
             "win32"
           ],
           "config": {
-            "name": "MyTodo"
+            "name": "MyTodo App"
           }
         },
         {
