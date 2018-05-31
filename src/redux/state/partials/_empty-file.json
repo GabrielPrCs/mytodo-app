@@ -1,0 +1,18 @@
+{
+    "sort":{
+        "condition":"title","asc":true
+    },
+    "filter":{
+        "possibilities":{
+            "title":[],
+            "type":[],
+            "destination": [],
+            "reminder":[]
+        },
+        "list":[]
+    },
+    "items":{
+        "nextId":0,
+        "list":[]
+    }
+}

@@ -14,11 +14,15 @@
                 "accelerator": "CommandOrControl+O"
             },
 
+            "saveFile": {
+                "label": "Guardar",
+                "accelerator": "CommandOrControl+S"
+            },
+
             "saveFileAs": {
                 "label": "Guardar como",
-                "accelerator": ""
+                "accelerator": "CommandOrControl+Shift+S"
             }
-
         },
 
         "editor": {
@@ -39,7 +43,8 @@
             "days": ["Lun","Mar","Mie","Jue","Vie","Sab","Dom"],
             "months": ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
         },
-        "noData": "No hay nada para mostrar..."
+        "noData": "No hay nada para mostrar...",
+        "noSaved": "Sin guardar"
     },
 
     "item": {

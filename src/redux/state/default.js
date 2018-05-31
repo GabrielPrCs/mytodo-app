@@ -1,11 +1,17 @@
 import lang from "./partials/lang/_es.json";
 import ui from "./partials/_ui.json";
-import file from "./partials/_file.json";
+import file from "./partials/_empty-file.json";
+
+const openedFiles = {
+    currentActive: null,
+    list: [],
+    activeFile: file
+}
 
 let state = {
     lang: lang,
     ui: ui,
-    current_file: file
+    openedFiles: openedFiles,
 }
 
 Array.prototype.returnIfExists = function(comparer) {

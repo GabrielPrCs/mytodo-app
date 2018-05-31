@@ -10,11 +10,18 @@ export function openFile(path) {
     }
 }
 
-export const SAVE_FILE = "save_file";
-export function saveFile(path) {
+export const SAVE_FILE_AS = "save_file_as";
+export function saveFileAs(path) {
     return {
-        type: SAVE_FILE,
+        type: SAVE_FILE_AS,
         payload: path
+    }
+}
+
+export const SAVE_FILE = "save_file";
+export function saveFile() {
+    return {
+        type: SAVE_FILE
     }
 }
 
@@ -110,5 +117,16 @@ export function toggleAddPanel(forceActive = false, data = { title: "", type: ""
             data: data,
             forceActive: forceActive
         }
+    }
+}
+
+/**
+ * Tabs actions
+ */
+export const CHANGE_ACTIVE_FILE = "change_active_file";
+export function changeActiveFile(id) {
+    return {
+        type: CHANGE_ACTIVE_FILE,
+        payload: id
     }
 }

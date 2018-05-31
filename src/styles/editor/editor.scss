@@ -1,29 +1,36 @@
 div#editor-window {
-    position: absolute;
+    position: fixed;
     background-color: white;
     height: 100%;
     width: 100%;
+    background-color: whitesmoke;
     /**
      * Common style of the two panels that make up the editor.
      */
 
-    & > div.filter-panel {
-        position: fixed;
-        top: 2px;
-        right: $xspacing;
-        z-index: 1;
+    & > div.tabs-panel {
+        position: absolute;
+        left: .5 * $xspacing;
+        right: .5 * $xspacing;
+        height: $yspacing;
     }
 
-    & > div.list-panel, div.add-panel {
+    & > div.add-panel {
         position: absolute;
         left: $xspacing;
         right: $xspacing;
-        background: white;
+        bottom: 0;
     }
-    & > div.list-panel { top: $yspacing; max-height: 80%; }
-    & > div.add-panel { bottom: 0 }
+    & > div.list-panel { 
+        position: absolute;
+        top: $yspacing; 
+        max-height: 80%;
+        left: .5 * $xspacing;
+        right: .5 * $xspacing;
+    }
 }
 
+@import './partials/_tabs.scss';
 @import './partials/_add-panel.scss';
 @import './partials/_filter.scss';
 @import './partials/_list-panel.scss';

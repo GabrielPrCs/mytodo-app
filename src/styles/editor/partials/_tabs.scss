@@ -1,0 +1,49 @@
+div.tabs-panel {
+    white-space: nowrap;
+    overflow-x: auto;
+    z-index: 2;
+    & > ul.tabs {
+        position: absolute;
+        list-style-type: none;
+        bottom: 0;
+        margin: 0;
+        padding: 0;
+        & > li.tab {
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+            display: inline-block;
+            padding: 1px 10px;
+            padding-bottom: 0;
+            background-color: rgb(197, 197, 197);
+            margin-left: 20px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 15px;
+            min-width: 100px;
+            transform: perspective(5px) rotateX(3deg);
+            transform-origin: bottom;
+            & > div {
+                font-size: 75%;
+                transform: perspective(5px) rotateX(-3deg);
+                transform-origin: bottom;
+                margin-bottom: 2px;
+                & > .close-button {
+                    position: absolute;
+                    right: 0;
+                    bottom: 1px;
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(180, 180, 180);
+            }
+            &.active {
+                @include add-shadow(1);
+                background-color: white;
+            }
+        }
+        & > li.tab + li.tab {
+            margin-left: 0px;
+        }
+    }
+}

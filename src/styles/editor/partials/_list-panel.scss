@@ -1,6 +1,11 @@
 div.list-panel {
+    @include add-shadow(1);
+    background: white;
     overflow: auto;
     min-height: 85vh;
+    border-bottom-left-radius: .7 *$border-radius;
+    border-bottom-right-radius: .7 *$border-radius;
+    padding: 5px 5px 0 5px;
     & > table {
         border-collapse: collapse;
         overflow: hidden;
@@ -15,9 +20,14 @@ div.list-panel {
             text-align: left;
             &:hover { cursor: pointer }
         }
-        & th.active {
-            border-bottom: 2px solid $primary-color-dark;
-            color: $primary-color-dark;
+        & th {
+            width: 25%;
+            border-bottom: 2px solid whitesmoke;
+            color: grey;
+            &.active {
+                border-color: $primary-color-dark;
+                color: $primary-color-dark;
+            }
         }
         /**
          * Adds a gap after the table header.
@@ -38,22 +48,22 @@ div.list-panel {
              * Style for item's quick info.
              */
             // Quick info options position
-            & > tr.quick-info > td.options { display: none; position: absolute; right: 0; }
-            &:hover > tr.quick-info > td.options { display: block; }
+            & > tr.quick-info > td.options { position: absolute; left: -30vw; @include add-transition(left, .25s) }
+            &:hover > tr.quick-info > td.options { left: 0; }
             // Collapsed (inactive) item colors
             &.favorite > tr.quick-info { color: $primary-color-dark }
             & > tr.quick-info { color: $info-color; }
             &.completed > tr.quick-info { text-decoration: line-through; color: grey; }
             &:hover > tr.quick-info { background-color: whitesmoke;  }
-            // Options tr
+            // Options Color
             & > tr.quick-info > td.options {
                 @include add-shadow(.5);
                 padding-left: 15px;
                 background-color: $primary-color;
                 color: $primary-color-dark;
                 letter-spacing: 15px;
-                border-top-left-radius: $border-radius;
-                border-bottom-left-radius: $border-radius;
+                border-top-right-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
                 & > *:hover { cursor: pointer; color: white; } // The active and completed white color are on inline style on the corresponding elements
             }
             // Opened (active) item colors

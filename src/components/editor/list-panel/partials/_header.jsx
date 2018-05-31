@@ -15,7 +15,7 @@ const _HeaderItem = ({text, icon, column, sort_condition, sortFile}) => {
 }
 
 const HeaderItem = connect(
-    state    => ({ sort_condition: state.current_file.sort.condition }),
+    state    => ({ sort_condition: state.openedFiles.activeFile.sort.condition }),
     dispatch => ({ sortFile: (condition) => dispatch(sortFile(condition)) })
 )(_HeaderItem)
 

@@ -2,12 +2,12 @@ import React from 'react'
 
 import ListPanel from './list-panel/list-panel'
 import AddPanel from './add-panel/add-panel'
-// import Filter from './filter/filter'
+import Tabs from './tabs/tabs'
 
 export default () => {
     return (
         <div id="editor-window">
-            {/* <Filter test="holakac"/> */}
+            <Tabs/>
             <ListPanel/>
             <AddPanel/>
         </div>        

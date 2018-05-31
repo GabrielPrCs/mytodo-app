@@ -75,6 +75,6 @@ const BodyItem = connect(
     })
 )(_BodyItem)
 
-const _Body = ({current_file}) => current_file.items.list.map((item, key) => <BodyItem item={item} key={key}/>)
+const _Body = ({list}) => list.map((item, key) => <BodyItem item={item} key={key}/>)
 
-export default connect(state => ({ current_file: state.current_file }))(_Body)
+export default connect(state => ({ list: state.openedFiles.activeFile.items.list }))(_Body)

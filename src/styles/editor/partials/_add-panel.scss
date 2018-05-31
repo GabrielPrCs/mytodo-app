@@ -1,5 +1,6 @@
 div.add-panel {
     @include add-shadow(.5, true);
+    background: white;
     border-top-right-radius: $border-radius;
     padding-left: 20px;
     padding-right: 20px;
@@ -8,22 +9,22 @@ div.add-panel {
         @include add-transition(max-height, .5s);
         max-height: 0;
         overflow: hidden;
-        & input, textarea {  @extend %material-input }
+        & input, textarea { @extend %material-input }
         & textarea { resize: none;  min-height: 80px; max-height: 80px; padding-left: 1% }
         &.active { max-height: 500px; height: 310px; }
     }
 
     & > button.toggle-button {
         @extend %primary-button;
-        @include add-shadow(.5, true);
+        @include add-shadow(.25, true);
         &:hover{
-            @include add-shadow(.5, true);
+            @include add-shadow(.25, true);
         }
         &.active { 
             @extend %danger-button;
-            @include add-shadow(.5, true);
+            @include add-shadow(.25, true);
             &:hover{
-                @include add-shadow(.5, true);
+                @include add-shadow(.25, true);
             }
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;

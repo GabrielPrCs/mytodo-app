@@ -18,7 +18,7 @@ const createWindow = async () => {
     width: 800,
     height: 600,
     minWidth: 800,
-    minHeight: 600
+    minHeight: 600,
   })
 
   // and load the index.html of the app.
@@ -53,31 +53,33 @@ const createWindow = async () => {
     }
   }
 
-  let saveFile = {
+  let saveFileAs = {
     label: lang.menubar.file.saveFileAs.label,
     accelerator: lang.menubar.file.saveFileAs.accelerator,
     click: () => {
       dialog.showSaveDialog({}, file => {
-          if(file !== undefined) mainWindow.webContents.send('save-file', file)
+          if(file !== undefined) mainWindow.webContents.send('save-file-as', file)
       })
     }
+  }
+
+  let saveFile = {
+    label: lang.menubar.file.saveFile.label,
+    accelerator: lang.menubar.file.saveFile.accelerator,
+    click: () => mainWindow.webContents.send('save-file')
   }
 
   let addItem = {
     label: lang.menubar.editor.addItem.label,
     accelerator: lang.menubar.editor.addItem.accelerator,
+    click: () => mainWindow.webContents.send('add-item')
   }
-
-  // As Control+A is select all, the addItem accelerator has to be added globally
-  globalShortcut.register(lang.menubar.editor.addItem.accelerator, () => {
-    mainWindow.webContents.send('add-item')
-  })
 
   let template = [
       {
         label: lang.menubar.file.label,
         accelerator: lang.menubar.file.accelerator,
-        submenu: [ newFile, openFile, saveFile ]
+        submenu: [ newFile, openFile, saveFile, saveFileAs ]
       },
       {
         label: lang.menubar.editor.label,
@@ -86,7 +88,7 @@ const createWindow = async () => {
       }
     ]
 
-  // mainWindow.setMenu(Menu.buildFromTemplate(template))
+  mainWindow.setMenu(Menu.buildFromTemplate(template))
 
 };
 
