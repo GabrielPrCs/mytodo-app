@@ -6,7 +6,7 @@ const Tab = ({text, active = false, onClick}) => {
     return (
         <li title={text} className={`tab ${active ? "active" : ""}`} onClick={onClick}>
             <div>
-                {text.length <= 10 ? text : `${text.substring(0,9)}...`}
+                {text.length <= 15 ? text : `${text.substring(0,14)}...`}
                 <i className="fas fa-times close-button"></i>
             </div>
         </li>

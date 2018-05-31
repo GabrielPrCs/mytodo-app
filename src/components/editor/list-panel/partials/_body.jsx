@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { deleteItem, favoriteItem, tickItem, activeItem, toggleAddPanel } from '../../../../redux/actions.js'
+import { deleteItem, favoriteItem, completeItem, activeItem, toggleAddPanel } from '../../../../redux/actions.js'
 
 
-const _BodyItem = ({item, newest_id, lang, activeItem, favoriteItemClickHandler, tickItemClickHandler, editItemClickHandler, deleteItemClickHandler}) => {
+const _BodyItem = ({item, newest_id, lang, activeItem, favoriteItemClickHandler, completeItemClickHandler, editItemClickHandler, deleteItemClickHandler}) => {
     // Just on tr can be returned, so tbody is necessary
     return (
         <tbody onClick={ () => activeItem(item.id) }
@@ -26,7 +26,7 @@ const _BodyItem = ({item, newest_id, lang, activeItem, favoriteItemClickHandler,
                     </i>
                     {/* Complete option button */}
                     <i title={ lang.buttons.complete } 
-                       onClick={ e => tickItemClickHandler(e, item.id) } 
+                       onClick={ e => completeItemClickHandler(e, item.id) } 
                        className={`${item.completed ? "white-color fas" : "far"} fa-check-square`}>
                     </i>
                     {/* Edit option button */}
@@ -60,9 +60,9 @@ const BodyItem = connect(
             e.stopPropagation() // Prevents the item from being activated / deactivated
             dispatch(favoriteItem(id))
         },
-        tickItemClickHandler: (e, id) => {
+        completeItemClickHandler: (e, id) => {
             e.stopPropagation() // Prevents the item from being activated / deactivated
-            dispatch(tickItem(id))
+            dispatch(completeItem(id))
         },
         editItemClickHandler: (e, item) => {
             e.stopPropagation() // Prevents the item from being activated / deactivated

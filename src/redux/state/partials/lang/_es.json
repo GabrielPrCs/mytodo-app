@@ -6,7 +6,7 @@
 
             "newFile": {
                 "label": "Nuevo archivo",
-                "accelerator": ""
+                "accelerator": "CommandOrControl+N"
             },
 
             "openFile": {
@@ -31,7 +31,7 @@
 
             "addItem": {
                 "label": "Agregar línea",
-                "accelerator": "CommandOrControl+N"
+                "accelerator": ""
             }
         }
     },
@@ -44,7 +44,8 @@
             "months": ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
         },
         "noData": "No hay nada para mostrar...",
-        "noSaved": "Sin guardar"
+        "unsaved": "Sin guardar",
+        "newfile": "Nuevo archivo"
     },
 
     "item": {

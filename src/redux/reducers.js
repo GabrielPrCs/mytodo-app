@@ -3,12 +3,13 @@ import {
     ADD_ITEM,
     DELETE_ITEM,
     FAVORITE_ITEM,
-    TICK_ITEM,
+    COMPLETE_ITEM,
     ACTIVE_ITEM,
     TOGGLE_ADD_PANEL,
     ADD_FILTER_CONDITION,
     REMOVE_FILTER_CONDITION,
     CLEAR_FILTER_CONDITIONS,
+    NEW_FILE,
     OPEN_FILE,
     SAVE_FILE,
     SAVE_FILE_AS,
@@ -16,8 +17,12 @@ import {
     ADD_FILTER_POSSIBILITY,
     CHANGE_ACTIVE_FILE
 } from './actions.js';
+
 import fs from 'fs'
 import hash from 'object-hash';
+
+import emptyFile from "./state/partials/_empty-file.json";
+
 
 const dialog = require('electron').remote.dialog 
 
@@ -54,12 +59,12 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
 
         case OPEN_FILE:
         case CHANGE_ACTIVE_FILE:
+        case NEW_FILE:
             current = s.list.findById(s.currentActive)
             // If there is a current active file opened, it will be remove from the active state,
             // so is necessary to keep it's data (on memory) for future uses or for save
             // it to disk in any moment 
             if(current) {
-                // Saves all the changes made to the current active file ON MEMORY
                 current.content = s.activeFile;
             }
             // Gets the file that will be the new active file
@@ -86,7 +91,7 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                 auxiliaryFile = s.list.findById(id)
                 // If there is already a file with the same id, it means that the file
                 // is already opened, so just change his state to active (its done on the end of this case).
-                // Otherwise, create a new file and add it to the system.
+                // Otherwise, create a new reference to the file and add it to the system.
                 if(!auxiliaryFile) {
                     auxiliaryFile = {
                         id: id,
@@ -94,74 +99,73 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                         path: payload,
                         content: JSON.parse(readFile(payload, "utf8")),
                     }
-                    s.list.push(auxiliaryFile)
+                    // TODO: check if there is enough memory to store the file, otherwise release some.
+                    s.list.unshift(auxiliaryFile)
                 }
+            }
+            else if(type === NEW_FILE) {
+                auxiliaryFile = {
+                    id: "newfile"+s.nextNewfileId,
+                    name: defState.lang.common.newfile + " " + s.nextNewfileId,
+                    content: emptyFile
+                }
+                s.list.unshift(auxiliaryFile);
+                s.nextNewfileId++;
             }
             // Saves the data of the new active file on the state if the content is correctly loaded
             if(auxiliaryFile.content) {
                 s.currentActive = auxiliaryFile.id;
-                s.activeFile = auxiliaryFile.content
+                s.activeFile = auxiliaryFile.content;
             }
             break;
 
         case SAVE_FILE:
-
-            /**
-             * Before dispatching the save file action, check if the file has a path, if not
-             * ask the user for one and then save the file on that indicated path
-             */
-
-            current = s.list.findById(s.currentActive)
-            // If there is a current active file opened, as it will be saved to disk,
-            // we need to save that updated data on the list of opened files to keep the synchronization 
-            if(current) {
-                current.content = s.activeFile;
-            }
-
-            current = s.list.findById(s.currentActive);
-            if(current) {
-                // Saves all the changes made to the current active file ON MEMORY
-                current.content = s.activeFile;
-                // Saves the file to disk
-                fs.writeFile(current.path, JSON.stringify(current.content), e => {
-                        if(e)
-                            dialog.showMessageBox({ message: e.toString(), buttons: ["Ok"]
-                    })
-                })
-            }
-            else {
-                dialog.showSaveDialog({}, path => {
-                    if(path !== undefined) {
-                        current = {
-                            id: hash(path),
-                            name: path,
-                            path: path,
-                            content: s.activeFile
-                        }
-                        s.list.push(current)
-                        s.currentActive = current.id;
-                        s.activeFile = current.content
-                        // Saves the file to disk
-                        fs.writeFile(current.path, JSON.stringify(current.content), e => {
-                                if(e)
-                                    dialog.showMessageBox({ message: e.toString(), buttons: ["Ok"]
-                            })
-                        })
-
-                    }
-                })
-            }
-            break;
-
         case SAVE_FILE_AS:
-            fs.writeFile(payload, JSON.stringify(s.activeFile), e => { if(e) dialog.showMessageBox({ message: e.toString(), buttons: ["Ok"] }) })
+            current = s.list.findById(s.currentActive)
+            // If the file is still not on the opened files list, it means that the file has never
+            // been saved before, so its necessary to save it. For that reason, if there is no reference
+            // to the file on the list, creates and adds that reference
+            if(!current) {
+                current = {}
+                s.list.unshift(current)
+            }
+            // Saves the modified data of the file reference on the opened file's list.
+            current.content = s.activeFile;
+            // If the file that is going to be save has no path (the file has never been saved before),
+            // or the user wants to save the file in a different location, asks the user for the that path.
+            if(!current.path || type === SAVE_FILE_AS) {
+                let newPath = dialog.showSaveDialog({}) // Without callback it's a blocking dialog
+                // If the user entered a valid path, then proceed with the saving action,
+                // otherwise stop the action and show an error message
+                if(newPath) {
+                    current.name = newPath
+                    current.path = newPath
+                }
+                else {
+                    // Reverses all the changes to the previous state and exits the case
+                    s = state;
+                    break;
+                }
+            }
+            // On this point, the current file will have an assigned path, so now
+            // verifies if the file has an ID. If does, leaves it as it is, otherwise assigns it.
+            current.id = current.id.startsWith("newfile") ? hash(current.path) : current.id
+            // As the ID of the file could had been created on the previous step, then
+            // adds that ID as the new active file. As here the active file will not be
+            // changed to another one, the s.activeFile info not need to be modified
+            s.currentActive = current.id
+            // Saves the file to disk
+            fs.writeFile(current.path, JSON.stringify(current.content), e => {
+                if(e)
+                    dialog.showMessageBox({ message: e.toString(), buttons: ["Ok"]})
+            })
             break;
 
         case SORT_FILE:
         case ADD_ITEM:
         case DELETE_ITEM:
         case FAVORITE_ITEM:
-        case TICK_ITEM:
+        case COMPLETE_ITEM:
         case ACTIVE_ITEM:
         case ADD_FILTER_CONDITION:
         case REMOVE_FILTER_CONDITION:
@@ -184,7 +188,7 @@ function currentFileReducer(state = defState.openedFiles.activeFile, {type, payl
         case ADD_ITEM:
         case DELETE_ITEM:
         case FAVORITE_ITEM:
-        case TICK_ITEM:
+        case COMPLETE_ITEM:
         case ACTIVE_ITEM:
             // If its necessary sorting the file on one of this actions, call sort here
             s.items = itemsReducer(s.items, {type, payload})
@@ -236,7 +240,7 @@ function itemsReducer(state = defState.openedFiles.activeFile.items, {type, payl
             item.completed = false
             break;
 
-        case TICK_ITEM:
+        case COMPLETE_ITEM:
             item = s.list.findById(payload)
             item.completed = !item.completed
             item.favorite = false

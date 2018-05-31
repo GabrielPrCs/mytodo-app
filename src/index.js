@@ -41,6 +41,7 @@ const createWindow = async () => {
   let newFile = {
     label: lang.menubar.file.newFile.label,
     accelerator: lang.menubar.file.newFile.accelerator,
+    click: () => mainWindow.webContents.send('new-file')
   }
 
   let openFile = {
@@ -56,11 +57,7 @@ const createWindow = async () => {
   let saveFileAs = {
     label: lang.menubar.file.saveFileAs.label,
     accelerator: lang.menubar.file.saveFileAs.accelerator,
-    click: () => {
-      dialog.showSaveDialog({}, file => {
-          if(file !== undefined) mainWindow.webContents.send('save-file-as', file)
-      })
-    }
+    click: () => mainWindow.webContents.send('save-file-as')
   }
 
   let saveFile = {

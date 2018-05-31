@@ -3,8 +3,13 @@ import ui from "./partials/_ui.json";
 import file from "./partials/_empty-file.json";
 
 const openedFiles = {
-    currentActive: null,
-    list: [],
+    currentActive: "newfile0",
+    nextNewfileId: 1,
+    list: [{
+        id: "newfile0",
+        name: lang.common.newfile,
+        content: file
+    }],
     activeFile: file
 }
 

@@ -1,6 +1,7 @@
-/**
- * Current file actions
- */
+export const NEW_FILE = "new_file";
+export function newFile() {
+    return { type: NEW_FILE }
+}
 
 export const OPEN_FILE = "open_file";
 export function openFile(path) {
@@ -11,18 +12,13 @@ export function openFile(path) {
 }
 
 export const SAVE_FILE_AS = "save_file_as";
-export function saveFileAs(path) {
-    return {
-        type: SAVE_FILE_AS,
-        payload: path
-    }
+export function saveFileAs() {
+    return { type: SAVE_FILE_AS }
 }
 
 export const SAVE_FILE = "save_file";
 export function saveFile() {
-    return {
-        type: SAVE_FILE
-    }
+    return { type: SAVE_FILE }
 }
 
 export const ADD_ITEM = "add_item";
@@ -49,10 +45,10 @@ export function favoriteItem(itemid) {
     }
 }
 
-export const TICK_ITEM = "tick_item";
-export function tickItem(itemid) {
+export const COMPLETE_ITEM = "complete_item";
+export function completeItem(itemid) {
     return {
-        type: TICK_ITEM,
+        type: COMPLETE_ITEM,
         payload: itemid
     }
 }
@@ -74,9 +70,6 @@ export function sortFile(condition) {
 }
 
 
-/**
- * Filter actions
- */
 export const ADD_FILTER_POSSIBILITY = "add_filter_possibility";
 
 export const ADD_FILTER_CONDITION = "add_filter_items";
@@ -101,14 +94,9 @@ export function removeFilterCondition(id) {
 
 export const CLEAR_FILTER_CONDITIONS = "clear_filter_items";
 export function clearFilterConditions() {
-    return {
-        type: CLEAR_FILTER_CONDITIONS
-    }
+    return { type: CLEAR_FILTER_CONDITIONS }
 }
 
-/**
- * User interface actions
- */
 export const TOGGLE_ADD_PANEL = "toggle_add_panel";
 export function toggleAddPanel(forceActive = false, data = { title: "", type: "", destination: "", reminder: { active: false, date: null }, description: "" }) {
     return {
@@ -120,9 +108,6 @@ export function toggleAddPanel(forceActive = false, data = { title: "", type: ""
     }
 }
 
-/**
- * Tabs actions
- */
 export const CHANGE_ACTIVE_FILE = "change_active_file";
 export function changeActiveFile(id) {
     return {
