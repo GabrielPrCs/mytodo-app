@@ -74,7 +74,7 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                     // TODO: if the file content had been de-allocated, it was for memory reasons.
                     // So, before reloading its content, it will necessary to check if there is enough
                     // memory for doing that, if not, it will necessary to free some memory before process 
-                    auxiliaryFile.content = JSON.parse(readFile(path, "utf8"))
+                    auxiliaryFile.content = JSON.parse(readFile(auxiliaryFile.path, "utf8"))
                 }
             }
             else if(type === OPEN_FILE) { 
@@ -92,7 +92,7 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                         id: id,
                         name: payload,
                         path: payload,
-                        content: JSON.parse(readFile(path, "utf8")),
+                        content: JSON.parse(readFile(payload, "utf8")),
                     }
                     s.list.push(auxiliaryFile)
                 }
