@@ -14,14 +14,13 @@ import {
     SAVE_FILE,
     SAVE_FILE_AS,
     SORT_FILE,
-    ADD_FILTER_POSSIBILITY,
     CHANGE_ACTIVE_FILE
 } from './actions.js';
 
 import fs from 'fs'
 import hash from 'object-hash';
 
-import emptyFile from "./state/partials/_empty-file.json";
+import emptyContent from "./state/partials/_empty-file-content.json";
 
 
 const dialog = require('electron').remote.dialog 
@@ -45,7 +44,7 @@ function uiReducer(state = defState.ui, {type, payload}) {
     }
 }
 
-function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
+function workareaReducer(state = defState.workarea, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
     var auxiliaryFile = null;
     let current = null;
@@ -60,18 +59,11 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
         case OPEN_FILE:
         case CHANGE_ACTIVE_FILE:
         case NEW_FILE:
-            current = s.list.findById(s.currentActive)
-            // If there is a current active file opened, it will be remove from the active state,
-            // so is necessary to keep it's data (on memory) for future uses or for save
-            // it to disk in any moment 
-            if(current) {
-                current.content = s.activeFile;
-            }
             // Gets the file that will be the new active file
             if(type === CHANGE_ACTIVE_FILE) { 
                 // If the action is "change the active file", it means that the file is already
                 // charged on memory, so payload is the file's ID on memory
-                auxiliaryFile = s.list.findById(payload)
+                auxiliaryFile = s.openedFiles.findById(payload)
                 // If for any reason the content of the file has been de-allocated, but the reference
                 // to this file is still on the opened files list, it means that the file is still
                 // needed, so reload his content.
@@ -88,7 +80,7 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                 // The id of the file will be the hash of his absolute path. As an absolute path
                 // is unique, the hash will be too
                 let id = hash(payload)
-                auxiliaryFile = s.list.findById(id)
+                auxiliaryFile = s.openedFiles.findById(id)
                 // If there is already a file with the same id, it means that the file
                 // is already opened, so just change his state to active (its done on the end of this case).
                 // Otherwise, create a new reference to the file and add it to the system.
@@ -100,37 +92,28 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                         content: JSON.parse(readFile(payload, "utf8")),
                     }
                     // TODO: check if there is enough memory to store the file, otherwise release some.
-                    s.list.unshift(auxiliaryFile)
+                    s.openedFiles.unshift(auxiliaryFile)
                 }
             }
             else if(type === NEW_FILE) {
+                // Creates a new empty file and adds it to the opened files list
                 auxiliaryFile = {
                     id: "newfile"+s.nextNewfileId,
                     name: defState.lang.common.newfile + " " + s.nextNewfileId,
-                    content: emptyFile
+                    content: emptyContent
                 }
-                s.list.unshift(auxiliaryFile);
+                s.openedFiles.unshift(auxiliaryFile);
                 s.nextNewfileId++;
             }
             // Saves the data of the new active file on the state if the content is correctly loaded
             if(auxiliaryFile.content) {
-                s.currentActive = auxiliaryFile.id;
-                s.activeFile = auxiliaryFile.content;
+                s.activeFileId = auxiliaryFile.id;
             }
             break;
 
         case SAVE_FILE:
         case SAVE_FILE_AS:
-            current = s.list.findById(s.currentActive)
-            // If the file is still not on the opened files list, it means that the file has never
-            // been saved before, so its necessary to save it. For that reason, if there is no reference
-            // to the file on the list, creates and adds that reference
-            if(!current) {
-                current = {}
-                s.list.unshift(current)
-            }
-            // Saves the modified data of the file reference on the opened file's list.
-            current.content = s.activeFile;
+            current = s.openedFiles.findById(s.activeFileId)
             // If the file that is going to be save has no path (the file has never been saved before),
             // or the user wants to save the file in a different location, asks the user for the that path.
             if(!current.path || type === SAVE_FILE_AS) {
@@ -148,12 +131,12 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
                 }
             }
             // On this point, the current file will have an assigned path, so now
-            // verifies if the file has an ID. If does, leaves it as it is, otherwise assigns it.
+            // verifies if the file has an ID associated with his path.
+            // If does, leaves it as it is, otherwise assigns it.
             current.id = current.id.startsWith("newfile") ? hash(current.path) : current.id
             // As the ID of the file could had been created on the previous step, then
-            // adds that ID as the new active file. As here the active file will not be
-            // changed to another one, the s.activeFile info not need to be modified
-            s.currentActive = current.id
+            // adds that ID as the active file's ID.
+            s.activeFileId = current.id
             // Saves the file to disk
             fs.writeFile(current.path, JSON.stringify(current.content), e => {
                 if(e)
@@ -170,14 +153,16 @@ function openedFilesReducer(state = defState.openedFiles, {type, payload}) {
         case ADD_FILTER_CONDITION:
         case REMOVE_FILTER_CONDITION:
         case CLEAR_FILTER_CONDITIONS:
-            s.activeFile = currentFileReducer(s.activeFile, {type: type, payload: payload})
+            current = s.openedFiles.findById(s.activeFileId)
+            current.content = activeFileReducer(current.content, {type: type, payload: payload})
             break;
     }
     return s;
 }
 
-function currentFileReducer(state = defState.openedFiles.activeFile, {type, payload}) {
+function activeFileReducer(state = defState.workarea.openedFiles.findById(defState.workarea.activeFileId).content, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
+
     switch(type) {
         case SORT_FILE:
             s.sort.condition = payload;
@@ -191,7 +176,7 @@ function currentFileReducer(state = defState.openedFiles.activeFile, {type, payl
         case COMPLETE_ITEM:
         case ACTIVE_ITEM:
             // If its necessary sorting the file on one of this actions, call sort here
-            s.items = itemsReducer(s.items, {type, payload})
+            s.items = itemsReducer(s.items, {type, payload})            
             if(type === ADD_ITEM) {
                 s.filter = filterReducer(s.filter, {type, payload})
                 s.items.list.filterWithList(s.filter.list);
@@ -208,9 +193,10 @@ function currentFileReducer(state = defState.openedFiles.activeFile, {type, payl
     return s;
 }
 
-function itemsReducer(state = defState.openedFiles.activeFile.items, {type, payload}) {
+function itemsReducer(state = defState.workarea.openedFiles.findById(defState.workarea.activeFileId).content.items, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
     var item;
+
     switch(type) {
 
         case ADD_ITEM:
@@ -254,7 +240,7 @@ function itemsReducer(state = defState.openedFiles.activeFile.items, {type, payl
     return s;
 }
 
-function filterReducer(state = defState.openedFiles.activeFile.filter, {type, payload}) {
+function filterReducer(state = defState.workarea.openedFiles.findById(defState.workarea.activeFileId).content.filter, {type, payload}) {
     var s = JSON.parse(JSON.stringify(state));
     switch(type) {
         case ADD_ITEM:
@@ -282,5 +268,5 @@ function filterReducer(state = defState.openedFiles.activeFile.filter, {type, pa
 export default combineReducers({
     lang: langReducer,
     ui: uiReducer,
-    openedFiles: openedFilesReducer,
+    workarea: workareaReducer,
 })

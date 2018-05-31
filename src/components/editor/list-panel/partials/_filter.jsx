@@ -67,7 +67,7 @@ class _Filter extends React.Component {
 
 const mapStateToProps = state => ({
     lang: state.lang,
-    possibilities: state.openedFiles.activeFile.filter.possibilities,
+    possibilities: state.workarea.openedFiles.findById(state.workarea.activeFileId).content.filter.possibilities,
 })
 
 const mapDispatchToProps = dispatch => ({

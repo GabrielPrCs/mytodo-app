@@ -77,4 +77,4 @@ const BodyItem = connect(
 
 const _Body = ({list}) => list.map((item, key) => <BodyItem item={item} key={key}/>)
 
-export default connect(state => ({ list: state.openedFiles.activeFile.items.list }))(_Body)
+export default connect(state => ({ list: state.workarea.openedFiles.findById(state.workarea.activeFileId).content.items.list }))(_Body)

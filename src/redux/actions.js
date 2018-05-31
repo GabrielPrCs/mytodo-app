@@ -1,3 +1,20 @@
+/**
+ * User interface actions
+ */
+export const TOGGLE_ADD_PANEL = "toggle_add_panel";
+export function toggleAddPanel(forceActive = false, data = { title: "", type: "", destination: "", reminder: { active: false, date: null }, description: "" }) {
+    return {
+        type: TOGGLE_ADD_PANEL,
+        payload: {
+            data: data,
+            forceActive: forceActive
+        }
+    }
+}
+
+/**
+ * Files actions
+ */
 export const NEW_FILE = "new_file";
 export function newFile() {
     return { type: NEW_FILE }
@@ -11,6 +28,14 @@ export function openFile(path) {
     }
 }
 
+export const CHANGE_ACTIVE_FILE = "change_active_file";
+export function changeActiveFile(id) {
+    return {
+        type: CHANGE_ACTIVE_FILE,
+        payload: id
+    }
+}
+
 export const SAVE_FILE_AS = "save_file_as";
 export function saveFileAs() {
     return { type: SAVE_FILE_AS }
@@ -21,6 +46,18 @@ export function saveFile() {
     return { type: SAVE_FILE }
 }
 
+// TODO
+export const CLOSE_FILE = "close_file";
+export function closeFile(id) {
+    return {
+        type: CLOSE_FILE,
+        payload: id
+    }
+}
+
+/**
+ * Active file actions
+ */
 export const ADD_ITEM = "add_item";
 export function addItem(item) {
     return {
@@ -69,9 +106,6 @@ export function sortFile(condition) {
     }
 }
 
-
-export const ADD_FILTER_POSSIBILITY = "add_filter_possibility";
-
 export const ADD_FILTER_CONDITION = "add_filter_items";
 export function addFilterCondition(id, field, condition) {
     return {
@@ -95,23 +129,4 @@ export function removeFilterCondition(id) {
 export const CLEAR_FILTER_CONDITIONS = "clear_filter_items";
 export function clearFilterConditions() {
     return { type: CLEAR_FILTER_CONDITIONS }
-}
-
-export const TOGGLE_ADD_PANEL = "toggle_add_panel";
-export function toggleAddPanel(forceActive = false, data = { title: "", type: "", destination: "", reminder: { active: false, date: null }, description: "" }) {
-    return {
-        type: TOGGLE_ADD_PANEL,
-        payload: {
-            data: data,
-            forceActive: forceActive
-        }
-    }
-}
-
-export const CHANGE_ACTIVE_FILE = "change_active_file";
-export function changeActiveFile(id) {
-    return {
-        type: CHANGE_ACTIVE_FILE,
-        payload: id
-    }
 }

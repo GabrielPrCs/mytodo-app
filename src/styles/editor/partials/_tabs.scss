@@ -15,16 +15,16 @@ div.tabs-panel {
             padding: 1px 10px;
             padding-bottom: 0;
             background-color: rgb(197, 197, 197);
-            margin-left: 20px;
-            padding-top: 10px;
+            margin-left: 5px;
+            padding-top: 7px;
             padding-left: 20px;
             padding-right: 15px;
             min-width: 120px;
-            transform: perspective(5px) rotateX(3deg);
+            transform: perspective(5px) rotateX(1deg);
             transform-origin: bottom;
             & > div {
                 font-size: 75%;
-                transform: perspective(5px) rotateX(-3deg);
+                transform: perspective(5px) rotateX(-1deg);
                 transform-origin: bottom;
                 margin-bottom: 2px;
                 & > .close-button {

@@ -19,7 +19,7 @@ class _Tabs extends React.Component {
         return(
             <div className="tabs-panel">
                 <ul className="tabs">
-                    { this.props.opened_files.map((file, key) =>  
+                    { this.props.openedFiles.map((file, key) =>  
                         <Tab onClick={() => this.props.changeActiveFile(file.id)} key={key} text={file.name} active={this.props.activeId === file.id}/>)
                     }
                 </ul>
@@ -30,8 +30,8 @@ class _Tabs extends React.Component {
 
 const Tabs = connect(
     state => ({
-        activeId: state.openedFiles.currentActive,
-        opened_files: state.openedFiles.list
+        activeId: state.workarea.activeFileId,
+        openedFiles: state.workarea.openedFiles
     }),
     dispatch => ({
         changeActiveFile: id => dispatch(changeActiveFile(id))

@@ -2,7 +2,7 @@ import { app, BrowserWindow, Menu, dialog, globalShortcut } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
 
-import lang from './redux/state/partials/lang/_es.json'
+import lang from './redux/state/partials/_lang.json'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

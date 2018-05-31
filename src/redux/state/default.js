@@ -1,22 +1,33 @@
-import lang from "./partials/lang/_es.json";
+import lang from "./partials/_lang.json";
 import ui from "./partials/_ui.json";
-import file from "./partials/_empty-file.json";
+import emptyContent from "./partials/_empty-file-content.json";
 
-const openedFiles = {
-    currentActive: "newfile0",
-    nextNewfileId: 1,
-    list: [{
-        id: "newfile0",
-        name: lang.common.newfile,
-        content: file
-    }],
-    activeFile: file
+
+const emptyFile = {
+    id: "newfile0",
+    path: null,
+    name: lang.common.newfile,
+    content: emptyContent
+}
+
+const workarea = {
+    activeFileId: emptyFile.id,
+    nextNewfileId: emptyFile+1,
+    openedFiles: [emptyFile],
 }
 
 let state = {
     lang: lang,
     ui: ui,
-    openedFiles: openedFiles,
+    workarea: workarea,
+}
+
+/**
+ * Designed for an array of objects. Each object inside the array must have a property called id.
+ * Searches and returns the unique object inside the array that has the indicated id.
+ */
+Array.prototype.findById = function(id) {
+    return this.find(e => e.id === id);
 }
 
 Array.prototype.returnIfExists = function(comparer) {
@@ -31,13 +42,6 @@ Array.prototype.pushOrIncrease = function(element, comparer, increaser) {
         increaser(e)
     else
         this.push({count: 1, content: element})
-}
-
-/**
- * State -> current_file -> list
- */
-Array.prototype.findById = function(id) {
-    return this.find(e => e.id === id);
 }
 
 Array.prototype.filterWithList = function(list) {
